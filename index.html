@@ -218,7 +218,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Idina Menze和Caleb Hyles激情对唱Let It Go：<iframe height="498" width="510" src="http://player.youku.com/embed/XNjcyMDU4Njg0" frameborder="0" allowfullscreen></iframe><br>从事偏向底层开发工作2年多，最拿手的是C语言；曾因项目需要，在Visual Studio开发环境下使用C++开发过一个小的工具软件，所以面向对象的思想和一些基本概念都知道；<br>为了平滑地过渡到IOS开发，也想多掌握一些专用英文词汇，先从《Objective C Programming》这本书开始Objective-C的奇妙之旅。</p>
+        <p>从事偏向底层开发工作2年多，最拿手的是C语言；曾因项目需要，在Visual Studio开发环境下使用C++开发过一个小的工具软件，所以面向对象的思想和一些基本概念都知道；<br>为了平滑地过渡到IOS开发，也想多掌握一些专用英文词汇，先从《Objective C Programming》这本书开始Objective-C的奇妙之旅。</p>
 <h2 id="Chapter_1_You_and_This_Book">Chapter 1 You and This Book</h2><p>生词<br><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Instruction-指令		Inscrutable-不可思议的		Tediously-冗长地		<span class="keyword">Long</span>-winded 冗长的</span><br><span class="line">wear-wore-worn		illustrate-举例说明		typo-错字		physically-身体上地，完全地</span><br><span class="line">essential-本质的，必不可少的		landscape-风景，景况		euphemism-委婉语</span><br></pre></td></tr></table></figure></p>
 <ol>
 <li>这本书是写给想做IOS或者Mac OS X开发，却没有任何编程基础的（虽然我有，但是很多C的内容权当复习和提高(<em>^__^</em>)）；</li>
@@ -239,7 +239,7 @@
 <h2 id="Chapter_5_Functions">Chapter 5 Functions</h2><p>生词<br><figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Chunk-大块     Retrieve检索     Spiffy-出色的     Exclamation-惊叹，感叹      Identical-完全相同的</span><br><span class="line">Commas-逗号    corresponding-相应的，一致的        Reusability-重用性         Reusability-短语</span><br><span class="line"><span class="keyword">Partition</span>-分割 Empower-授权，使能	Scribble-乱写    Discard-丢弃，废弃          Recursion-递归</span><br><span class="line">Notoriously-众所周知的，臭名昭著的</span><br></pre></td></tr></table></figure></p>
 <ol>
 <li>函数执行所需要的参数都保存在栈中，书里叫做这个函数的Frame，正在执行的函数的Frame在Stack的top位，执行完毕之后Distroy，然后回到调用它的函数里，<br>同时stack里的top也就变成了调用他的函数的Frame，所以Stack里的top位置总是存放正在执行的Function的Frame；</li>
-<li></li>
+<li>讲了很好玩的递归应用：“99 Bottles of Beer” 唱歌，我搜了下，还真有这首歌而且是</li>
 </ol>
 
       
@@ -356,7 +356,13 @@
 <p>注意去掉字符“```\前面和后面的\”</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">printf</span>(<span class="string">"hello world"</span>);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"hello CpatainJe"</span>);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"hello CaptainTeemo"</span>);</span><br></pre></td></tr></table></figure>
 <p>代码高亮用的是highlight.js。<br>这里可以查看highlight.js支持的语言：<a href="https://highlightjs.org/static/demo/" target="_blank" rel="external">https://highlightjs.org/static/demo/</a></p>
+<h2 id="插入视频和音乐"><strong>插入视频和音乐</strong></h2><p>只能潜入html元素啦，<br>哈哈，这个是我废了点功夫才找到一篇博客里面的方法：<br>视频：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Idina Menze和Caleb Hyles激情对唱Let It Go：</span><br><span class="line"><span class="tag">&lt;<span class="title">iframe</span> <span class="attribute">height</span>=<span class="value">498</span> <span class="attribute">width</span>=<span class="value">510</span> <span class="attribute">src</span>=<span class="value">"http://player.youku.com/embed/XNjcyMDU4Njg0"</span> <span class="attribute">frameborder</span>=<span class="value">0</span> <span class="attribute">allowfullscreen</span>&gt;</span><span class="tag">&lt;/<span class="title">iframe</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>Idina Menze和Caleb Hyles激情对唱Let It Go：</p>
+<iframe height="498" width="510" src="http://player.youku.com/embed/XNjcyMDU4Njg0" frameborder="0" allowfullscreen></iframe>
 
+<p>音乐<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Howl-Florance and the Mchine:</span><br><span class="line"><span class="tag">&lt;<span class="title">iframe</span> <span class="attribute">height</span>=<span class="value">100</span> <span class="attribute">width</span>=<span class="value">510</span> <span class="attribute">src</span>=<span class="value">"http://music.163.com/#/m/song?id=2589607"</span> <span class="attribute">frameborder</span>=<span class="value">0</span> <span class="attribute">allowfullscreen</span>&gt;</span><span class="tag">&lt;/<span class="title">iframe</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>Howl-Florance and the Mchine:</p>
+<iframe height="100" width="510" src="http://music.163.com/#/m/song?id=2589607" frameborder="0" allowfullscreen></iframe>
       
     </div>
     
