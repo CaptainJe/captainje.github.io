@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>读书笔记《Objective C Programming - The Big Nerd Ranch Guide》Chapter 6 to 11 | CaptainJe&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="接着第5章往下看，前面讲C的章节，感觉作者描述的很清晰易懂，不知道后面讲ObjC的时候怎么样，希望能延续这样的风格。
+Chapter 6 Numbers生词123Codify-编程法典          Literal-文字的          Explicit-明确的          Planet-星球          Prefix-加前缀Precedence-优先于        Modu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="读书笔记《Objective C Programming - The Big Nerd Ranch Guide》Chapter 6 to 11">
+<meta property="og:url" content="http://yoursite.com/2015/09/11/读书笔记《Objective C Programming - The Big Nerd Ranch Guide》Chapter 6 to 11/index.html">
+<meta property="og:site_name" content="CaptainJe's Blog">
+<meta property="og:description" content="接着第5章往下看，前面讲C的章节，感觉作者描述的很清晰易懂，不知道后面讲ObjC的时候怎么样，希望能延续这样的风格。
+Chapter 6 Numbers生词123Codify-编程法典          Literal-文字的          Explicit-明确的          Planet-星球          Prefix-加前缀Precedence-优先于        Modu">
+<meta property="og:updated_time" content="2015-09-11T07:09:16.187Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="读书笔记《Objective C Programming - The Big Nerd Ranch Guide》Chapter 6 to 11">
+<meta name="twitter:description" content="接着第5章往下看，前面讲C的章节，感觉作者描述的很清晰易懂，不知道后面讲ObjC的时候怎么样，希望能延续这样的风格。
+Chapter 6 Numbers生词123Codify-编程法典          Literal-文字的          Explicit-明确的          Planet-星球          Prefix-加前缀Precedence-优先于        Modu">
+  
+    <link rel="alternative" href="/atom.xml" title="CaptainJe&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="https://avatars2.githubusercontent.com/u/13464469?v=3&amp;s=460" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">CaptainJe</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单xxx</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="/#" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+					        
+								<a class="zhihu" target="_blank" href="/#" title="zhihu">zhihu</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/MarkDown/" style="font-size: 10px;">MarkDown</a> <a href="/tags/Objective-C/" style="font-size: 20px;">Objective-C</a> <a href="/tags/读书笔记/" style="font-size: 20px;">读书笔记</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">奥巴马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">卡卡的美丽传说</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">本泽马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">吉格斯的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">习大大大不同</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">托蒂的博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">我是CaptainJe，一只野生程序员，Teemo的盟友，绝对不要低估斥候戒律的威力~</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">CaptainJe</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="https://avatars2.githubusercontent.com/u/13464469?v=3&amp;s=460" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">CaptainJe</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="/#" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+			        
+						<a class="zhihu" target="_blank" href="/#" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-读书笔记《Objective C Programming - The Big Nerd Ranch Guide》Chapter 6 to 11" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/09/11/读书笔记《Objective C Programming - The Big Nerd Ranch Guide》Chapter 6 to 11/" class="article-date">
+  	<time datetime="2015-09-11T09:44:26.000Z" itemprop="datePublished">2015-09-11</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      读书笔记《Objective C Programming - The Big Nerd Ranch Guide》Chapter 6 to 11
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Objective-C/">Objective-C</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/读书笔记/">读书笔记</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>接着第5章往下看，前面讲C的章节，感觉作者描述的很清晰易懂，不知道后面讲ObjC的时候怎么样，希望能延续这样的风格。</p>
+<h2 id="Chapter_6_Numbers">Chapter 6 Numbers</h2><p>生词<br><figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Codify-编程法典          <span class="keyword">Literal</span>-文字的          Explicit-明确的          Planet-星球          <span class="keyword">Prefix</span>-加前缀</span><br><span class="line"><span class="keyword">Precedence</span>-优先于        <span class="keyword">Modulus</span>-模数           <span class="keyword">Quotient</span>-系数，商         <span class="keyword">Denominator</span>-分母     Trigonometry-三角法</span><br><span class="line">Exponentiation-幂        Cube-立方              Radian-弧度              Dictate-命令         Iterate-迭代，重复</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>介绍计算机内各种类型数的存储方式,强制类型转换等；</li>
+</ol>
+<h2 id="Chapter_7_Loops">Chapter 7 Loops</h2><p>生词<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">居然没有</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>介绍循环的基本只是，没什么好记录的，除了这个：<blockquote>
+<p>Notice the trailing semicolon. That’s because unlike the other loops, a do-whileloop is actually one<br>long statement:<br>do { something } while ( something else stays true );</p>
+</blockquote>
+</li>
+</ol>
+<p>没人说过为什么do while最后要有一个分号。。。也没想过这个问题；</p>
+<h2 id="Chapter_8_Addresses_and_Pointers">Chapter 8 Addresses and Pointers</h2><p>生词<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Vast-广阔的，巨大的          meadow-牧场          stuff-塞满，东西</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>讲到寻址问题和CPU位数的关系<blockquote>
+<p>Whenpeople talk about a 32-bit CPU or a 64-bit CPU, they are usually talking about how big the address is.<br>A 64-bit CPU can deal with much, much more memory than a 32-bit CPU.</p>
+</blockquote>
+</li>
+</ol>
+<p>我觉得概念有点模糊，去查找相关资料：</p>
+<blockquote>
+<p>目前不少人可能对于CPU的寻址概念有些模糊，认为CPU的寻址范围与其平常概念上的位宽直接联系，即所谓的32位CPU寻址范围为2^32，64位的则是2^64。其实这是一个错误的概念，对于CPU来说，这个的位宽一般是指是其数据总线位宽，和寻址能力并无直接联系。至于一个CPU的寻址位宽是多少则要看其具体的设计。</p>
+</blockquote>
+<p>这个博客讲的比较清楚了，其实原文中作者的memory并不是特指的内存；</p>
+<ol>
+<li>%p这个没用过哈，函数名是指向函数开始运行的地址说的很精辟；</li>
+<li>%zu用于size_t tpye在printf中的notation；<code>float* a</code>和<code>float *a</code>,Stylish的程序员都是用第二种；</li>
+</ol>
+<h2 id="Chapter_9_Pass_By_Reference">Chapter 9 Pass By Reference</h2><p>生词<br><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="label">Fraction</span>-分数，部分，小数          stash-存放          <span class="keyword">Biz-商业 </span>         Dead drop-情报秘密传递点          Polar-两极的，极面</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>主要讲了如果函数需要返回两个极以上的值，用指针作为参数传递的方法；</li>
+</ol>
+<h2 id="Chapter_10_Structs">Chapter 10 Structs</h2><p>生词<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Obese-肥胖的          Imprecise-不精确的</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>结构体的基本知识</li>
+</ol>
+<h2 id="Chapter_11_The_Heap">Chapter 11 The Heap</h2><p>生词<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Vowel-元音          Region-地区          Assorted-分等级的，各种各样的          Arithmetic-算法</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>我想了Heap和Stack的区别，也查了资料；我在想，如果是递归调用中使用alloc申请heap中的内存，那么Stack中又会如何存frame呢？难道把申请的heap再存一次？<br>而且每次使用alloc，从heap中申请的内存都是给同一个地址么？<br>想到的答案可能是这样： 因为调用alloc申请内存都是付给一个指针；而这指针变量是直接定义的，也就是stack里的，那么stack里的frame只保存这个指针变量就好了，<br>而Heap里的值是不归stack管的；递归返回的时候，仍旧通过这个指针去找heap里面的内存值；而每次调用alloc的前面，都会声明一次指针变量，这些指针变量虽然名字<br>相同，但是却是由stack管理的不同的变量，就像Chapter 5里面的Recursion；<br>我要用Xcode做一个实验仿真看看搞清楚。</li>
+</ol>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/09/08/读书笔记《Objective-C-Programming-The-Big-Nerd-Ranch-Guide》Chapter 1 to 5/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">读书笔记《Objective C Programming - The Big Nerd Ranch Guide》Chapter 1 to 5</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="读书笔记《Objective C Programming - The Big Nerd Ranch Guide》Chapter 6 to 11" data-title="读书笔记《Objective C Programming - The Big Nerd Ranch Guide》Chapter 6 to 11" data-url="http://yoursite.com/2015/09/11/读书笔记《Objective C Programming - The Big Nerd Ranch Guide》Chapter 6 to 11/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 CaptainJe
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>
