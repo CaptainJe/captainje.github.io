@@ -47,7 +47,7 @@ Chapter 1 You and This Book生词123Inst">
 <meta property="og:site_name" content="CaptainJe's Blog">
 <meta property="og:description" content="从事偏向底层开发工作2年多，最拿手的是C语言；曾因项目需要，在Visual Studio开发环境下使用C++开发过一个小的工具软件，所以面向对象的思想和一些基本概念都知道；为了平滑地过渡到IOS开发，也想多掌握一些专用英文词汇，先从《Objective C Programming》这本书开始Objective-C的奇妙之旅。
 Chapter 1 You and This Book生词123Inst">
-<meta property="og:updated_time" content="2015-09-23T06:51:01.064Z">
+<meta property="og:updated_time" content="2015-10-19T04:37:01.094Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="读书笔记《Objective C Programming - The Big Nerd Ranch Guide》Chapter 1 to 5">
 <meta name="twitter:description" content="从事偏向底层开发工作2年多，最拿手的是C语言；曾因项目需要，在Visual Studio开发环境下使用C++开发过一个小的工具软件，所以面向对象的思想和一些基本概念都知道；为了平滑地过渡到IOS开发，也想多掌握一些专用英文词汇，先从《Objective C Programming》这本书开始Objective-C的奇妙之旅。
@@ -259,7 +259,7 @@ Chapter 1 You and This Book生词123Inst">
 <li>函数执行所需要的参数都保存在栈中，书里叫做这个函数的Frame，正在执行的函数的Frame在Stack的top位，执行完毕之后Distroy，然后回到调用它的函数里，<br>同时stack里的top也就变成了调用他的函数的Frame，所以Stack里的top位置总是存放正在执行的Function的Frame；</li>
 <li>讲了很好玩的递归应用：“99 Bottles of Beer”，一开始我看蒙了，从99bear到0bear都可以理解，函数不断调用自己99次，但是后来的从0又到99bear是怎么<br>来的呢？好吧我居然一时忘记了函数执行完毕之后要返回调用它的函数，同时frame从stack里pop；也就是从0bear再到99bear的这个过程了；第一次发现读英文<br>书居然比之前上学时候学的中文课本更加清晰易懂~</li>
 <li>介绍了使用XCode仿真观察内存栈的方法；有趣的main函数return 0为什么表示执行成功？在逻辑判断里面0不是表示False么？想像函数返回0表示没有err就好了； </li>
-<li><p>关于static和全局变量，这个点书里面讲的不全，只是告诉了用static定义一个全局变量，则其他文件中不能引用，我根据经验总结下：<br>static关键字是将变量声明为 静态存储方式，也就是不在stack里面，不会在函数执行完毕之后销毁，<br>1&gt;.如果将static放在一个函数内部的局部变量之前，那么这个变量可以在整个程序执行周期内不销毁，一直存储使用的值；比如我有如下函数：</p>
+<li><p>关于static和全局变量，这个点书里面讲的不全，只是告诉了用static定义一个全局变量，则其他文件中不能引用，我根据经验总结下：<br>static关键字是将变量声明为 静态存储方式，也就是不在函数stack里面，不会在函数执行完毕之后销毁，<br>1&gt;.如果将static放在一个函数内部的局部变量之前，那么这个变量可以在整个程序执行周期内不销毁，一直存储使用；比如我有如下函数：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">  <span class="function"><span class="keyword">int</span> <span class="title">Stepup</span><span class="params">(<span class="keyword">void</span>)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	<span class="keyword">static</span> i = <span class="number">0</span>;</span><br><span class="line">	i++;</span><br><span class="line">	<span class="keyword">return</span> i;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>那么每次调用这个函数我得到的返回值会是：0，1，2，3，4。。。而不会一直都是1，因为变量i从来没被销毁，其值一直保存并递增；<br>2&gt;.如果将static放在一个全局变量之前，那么这个变量将仅仅只能在这个源文件中使用，而不能被其他源文件引用，即使使用extern；</p>
 </li>
@@ -283,7 +283,7 @@ Chapter 1 You and This Book生词123Inst">
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/09/11/读书笔记《Objective C Programming-The Big Nerd Ranch Guide》Chapter 6 to 11/" rel="prev">读书笔记《Objective C Programming - The Big Nerd Ranch Guide》Chapter 6 to 11</a>
+              <a href="/2015/09/08/读书笔记《Objective C Programming-The Big Nerd Ranch Guide》Chapter 24 to 30/" rel="prev">读书笔记《Objective C Programming - The Big Nerd Ranch Guide》Chapter 24 to 30</a>
             
           </div>
 
@@ -355,7 +355,7 @@ Chapter 1 You and This Book生词123Inst">
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-count">6</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -369,7 +369,7 @@ Chapter 1 You and This Book生词123Inst">
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-count">4</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

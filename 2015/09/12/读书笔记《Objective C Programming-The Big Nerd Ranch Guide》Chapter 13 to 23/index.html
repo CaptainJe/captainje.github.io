@@ -1,0 +1,729 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+    <meta name="description" content="weildjf asidjfal sjelfj aljdjl asf" />
+
+
+
+  <meta name="keywords" content="Objective-C,读书笔记," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="https://avatars2.githubusercontent.com/u/13464469?v=3&s=460?v=0.4.5.1" />
+
+
+<meta name="description" content="之前读的版本是旧版本，现找到2013年出版的新版本资源，章节比之前快一章。（新版本插了一章 Format String作为第6章）
+Chapter 13 Objects生词1encounter-遭遇，邂逅    convention-约定，惯例    terminology-术语
+
+#import和#include 区别： #include直接做拷贝-粘贴操作；#import会先检查是否已经在其他">
+<meta property="og:type" content="article">
+<meta property="og:title" content="读书笔记《Objective C Programming - The Big Nerd Ranch Guide》Chapter 13 to 23">
+<meta property="og:url" content="http://yoursite.com/2015/09/12/读书笔记《Objective C Programming-The Big Nerd Ranch Guide》Chapter 13 to 23/index.html">
+<meta property="og:site_name" content="CaptainJe's Blog">
+<meta property="og:description" content="之前读的版本是旧版本，现找到2013年出版的新版本资源，章节比之前快一章。（新版本插了一章 Format String作为第6章）
+Chapter 13 Objects生词1encounter-遭遇，邂逅    convention-约定，惯例    terminology-术语
+
+#import和#include 区别： #include直接做拷贝-粘贴操作；#import会先检查是否已经在其他">
+<meta property="og:updated_time" content="2015-10-26T06:07:40.553Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="读书笔记《Objective C Programming - The Big Nerd Ranch Guide》Chapter 13 to 23">
+<meta name="twitter:description" content="之前读的版本是旧版本，现找到2013年出版的新版本资源，章节比之前快一章。（新版本插了一章 Format String作为第6章）
+Chapter 13 Objects生词1encounter-遭遇，邂逅    convention-约定，惯例    terminology-术语
+
+#import和#include 区别： #include直接做拷贝-粘贴操作；#import会先检查是否已经在其他">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> 读书笔记《Objective C Programming - The Big Nerd Ranch Guide》Chapter 13 to 23 | CaptainJe's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?4c23a7bd61e4639a1d732369a9c18096";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">CaptainJe's Blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              读书笔记《Objective C Programming - The Big Nerd Ranch Guide》Chapter 13 to 23
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2015-09-12T17:44:26+08:00" content="2015-09-12">
+            2015-09-12
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/读书/" itemprop="url" rel="index">
+                  <span itemprop="name">读书</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/2015/09/12/读书笔记《Objective C Programming-The Big Nerd Ranch Guide》Chapter 13 to 23/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/09/12/读书笔记《Objective C Programming-The Big Nerd Ranch Guide》Chapter 13 to 23/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>之前读的版本是旧版本，现找到2013年出版的新版本资源，章节比之前快一章。（新版本插了一章 Format String作为第6章）</p>
+<h2 id="Chapter_13_Objects">Chapter 13 Objects</h2><p>生词<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">encounter-遭遇，邂逅    convention-约定，惯例    terminology-术语</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>#import和#include 区别： #include直接做拷贝-粘贴操作；#import会先检查是否已经在其他文件中包含过了，包含过的话就不再复制；<br>之前用C写程序，h头文件中，总是这样写<code>#ifndef xxxx #defeine XXXX .... #endif</code>来避免重复定义等问题，在OC中用#import就不用操心了。</li>
+<li><em>变量，方法名：camel case
+</em>类名，apple预定义常量： Capitlized</li>
+</ol>
+<h2 id="Chapter_14_More_Messages">Chapter 14 More Messages</h2><p>生词<br><figure class="highlight oxygene"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">nested</span>-嵌套的    counterproductive-反生产的，适得其反</span><br></pre></td></tr></table></figure></p>
+<p>1.单个和多个参数消息的发送<br> <code>[now dateByAddingTimeInterval:1000]</code>,the colon is an essential part of the method’s name,在这里，没有方法叫做dateByAddingTimeInterval,<br>   只有一个方法叫做dateByAddingTimeInterval:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[cal ordinalityOfUnit:NSDayCalendarUnit</span><br><span class="line"> 	           <span class="keyword">in</span>Unit:NSMonthCalendarUnit</span><br><span class="line">			  <span class="keyword">for</span>Date:now]</span><br></pre></td></tr></table></figure></p>
+<p>前面两个参数是常量，用来指定对三个返回参数的类型；解释为 返回对象now，作为NSDayCalendarUnit这种单位，在NSMonthCalendarUnit这种单位中的位置；<br>虽然含有三个参数，但是这条语句仍然只是一条消息，不要从形式上看错以为是3个消息；<br>2.嵌套消息的发送<br><code>double seconds = [[NSDate date] timeIntervalSince1970]</code><br>3.alloc和init方法，alloc为实例申请内存并返回指针，init初始化实例让其ready to work, 这两个方法是每个类都有的，经常嵌套使用。<br>4.对OC对象使用nil，对其他类型使用NULL作空指针；<br>5.使用id关键字来定义一个指向位置类型OC对象的指针；</p>
+<h2 id="Chapter_15_Objects_and_Memory">Chapter 15 Objects and Memory</h2><p>生词<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">practical-实用的    <span class="attribute">perspective</span>-观点    pile-堆    once upon <span class="tag">a</span> time-从前    explicitly-明确地</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>object存储在heap里面，object指针提供唯一入口，如果将这个指针指向别去，那么就再也没有办法访问到原来的存放在heap中的object，<br>那么这个object无法使用但却占据了heap存储空间，应该被销毁；</li>
+<li>ARC:Automatic Reference Counting:每个对象都知道有多少指针指向自己，当没有指针指向自己的时候，知道自己没用了，就自杀；</li>
+</ol>
+<h2 id="Chapter_16_NSString">Chapter 16 NSString</h2><p>生词<br><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="label">manipulate</span>-操作    literal-文字的    <span class="keyword">reveal-揭露，展开 </span>   delimited-规划界限    handy-便利的，手边的</span><br></pre></td></tr></table></figure></p>
+<p>1.方法的声明： class 方法 +开头；instance方法 -开头；<br>2.通过官方 Documentation and API Reference 获得需要的类信息；</p>
+<h2 id="Chapter_17_NSArray">Chapter 17 NSArray</h2><p>生词<br><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="label">immutable</span>-不可变的    <span class="keyword">iterating-迭代 </span>   mutable-易变的，不定性的    <span class="keyword">populate-填充 </span>   <span class="keyword">subscript-加下标</span><br><span class="line"></span><span class="label">deprecate</span>-弃用        <span class="keyword">revert-恢复到 </span>    grocery-杂货店，杂货</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>literal syntax, <code>NSArray *datelist = @[now,tomorrow,yesterday];</code></li>
+<li>一旦创建完成，NSArray内容无法再做任何修改；</li>
+<li><p>快速枚举语法Fast enumeration:</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="built_in">NSDate</span> *d <span class="keyword">in</span> dataList)&#123;</span><br><span class="line">	<span class="built_in">NSLog</span>(<span class="string">@"Here is a date: %@"</span>, d);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>NSMutableArray可以添加，删除，重新排序指针，</p>
+</li>
+</ol>
+<h2 id="Chapter_18_Your_First_Classs">Chapter 18 Your First Classs</h2><p>生词<br><figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">collectively-共同的，全体的    minus-减去    <span class="type">implicit</span>-隐含的    religious-虔诚的，修道士</span><br><span class="line">collide-冲突</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>cocoa是开发环境是五大API之一，包含两个对象库，成为框架：foundation框架和UIKIT框架</li>
+<li>类的声明：<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@interface</span> <span class="string">BNRPerson :</span> NSObject</span><br><span class="line">&#123;</span><br><span class="line">	<span class="typename">float</span> _heightInMeters;</span><br><span class="line">	<span class="typename">int</span> _weightInKilos;</span><br><span class="line">&#125;</span><br><span class="line"><span class="annotation">@end</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>实例变量下划线开头来区分于局部变量。</p>
+<ol>
+<li>#import&lt;&gt;:在标准库（开发环境配置好的）目录中查找文件；#import“”：在当前项目目录里查找文件，找不到的话再去标准库目录中查找文件。</li>
+<li>setter/getter accessor methods.</li>
+<li>self指针</li>
+</ol>
+<h2 id="Chapter_19_Properties">Chapter 19 Properties</h2><p>生词<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">explicit</span>-明确的</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>使用@property定义属性，编译器会自动生成accessor methods。</li>
+<li>Property attribute.  属性的特性</li>
+<li>点号语法调用 accessor 方法</li>
+</ol>
+<h2 id="Chapter_20_Inheritance">Chapter 20 Inheritance</h2><p>生词<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Inheritance-继承    implication-影响，暗示    redundant-多余的    <span class="keyword">override</span>-重载</span><br><span class="line">hierarchy-等级</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>通过重写父类的方法来实现重载，只能重载实现方法，不能重载声明中的所有内容</li>
+<li>使用super指令可以调用父类的方法</li>
+<li>向一个对象发送消息的时候，从isa 指针一级一级地向上查找方法，直到找到或者到最顶端的类（NSObject）为止</li>
+<li>%@发送一个描述消息给变量对象，每个对象都包含一个description 方法，返回NSString</li>
+</ol>
+<h2 id="Chapter_21_Object_Instance_Variables_and_Properties">Chapter 21 Object Instance Variables and Properties</h2><p>生词<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spouse-配偶    asset-资产    issue-问题，发行，下发    linger-徘徊</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>对象中包含指向对象的指针，ARC</li>
+<li>@class 有点像C语言中的extern，不需要包含头文件，就可以告诉编译器一个class的信息</li>
+<li>还带这样的？声明的时候生命实例变量是NSMutableArray,再加一条属性是NSArray，两个变量使用同一个名字，<br>意思就是，告诉外部人员这是个Array是只读的；但是在内部，这个实际上是Mutable的，可修改的?</li>
+</ol>
+<h2 id="Chapter_22_Class_Extensions">Chapter 22 Class Extensions</h2><p>生词<br><figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="escape">``</span><span class="escape">`</span><br><span class="line"></span><span class="number">1</span>. class extension 语法：</span><br></pre></td></tr></table></figure></p>
+<p>@interface BNREmployee()<br>@property (nonatomic) unsigned int officeAlarmCode;<br>@end<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">将声明从头文件，将属性以<span class="keyword">class</span> extension的方式移动到.m文件中：</span><br><span class="line"><span class="number">1</span>&gt;.在别的非本类实例对象中，这个属性是不可见的；</span><br><span class="line"><span class="number">2</span>&gt;.本类的头文件更加简洁，头文件就像一个广告牌，告诉别的开发者哪些事情他们需要知道，太多信息会导致难以阅读和使用；</span><br><span class="line"><span class="number">2.</span> 子类无权限使用父类的<span class="keyword">class</span> extension内容；</span><br><span class="line"><span class="number">3.</span> 子类无法直接使用继承自父类的属性，但是可以通过点号语法使用</span><br><span class="line"></span><br><span class="line"><span class="preprocessor">## Chapter <span class="number">23</span> Preventing Memory Leaks</span></span><br><span class="line">生词</span><br></pre></td></tr></table></figure></p>
+<p>consistent-始终如一的    profile-性能分析<br>```</p>
+<ol>
+<li>strong reference cycles:循环强引用：造成内存泄漏</li>
+<li>使用XCode提供的性能分析工具检查leaks</li>
+<li>使用若引用来解决强引用循环问题<code>@property (nonatomic,weak) BNREmployee *holder;</code><br>避免强引用的一个准则是：父亲应该拥有孩子，但是孩子不应当拥有父亲（好吧，我真的不着调怎么翻译才能表达出来真正的意思）</li>
+<li>总结：强引用会让指向的对象无法被删除，弱引用则不会阻止指向的对象被删除，如果弱引用指向的对象被删除，那么它将自动指向nil。</li>
+</ol>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Objective-C/" rel="tag">#Objective-C</a>
+          
+            <a href="/tags/读书笔记/" rel="tag">#读书笔记</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/09/11/读书笔记《Objective C Programming-The Big Nerd Ranch Guide》Chapter 6 to 11/" rel="next">读书笔记《Objective C Programming - The Big Nerd Ranch Guide》Chapter 6 to 11</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div class="ds-thread" data-thread-key="2015/09/12/读书笔记《Objective C Programming-The Big Nerd Ranch Guide》Chapter 13 to 23/"
+                   data-title="读书笔记《Objective C Programming - The Big Nerd Ranch Guide》Chapter 13 to 23" data-url="http://yoursite.com/2015/09/12/读书笔记《Objective C Programming-The Big Nerd Ranch Guide》Chapter 13 to 23/">
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="https://avatars2.githubusercontent.com/u/13464469?v=3&s=460" alt="CaptainJe" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">CaptainJe</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">weildjf asidjfal sjelfj aljdjl asf</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/CaptainJe" target="_blank">github</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://cn.linkedin.com/pub/��-��/93/317/1a6" target="_blank">linkedin</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Chapter_13_Objects"><span class="nav-number">1.</span> <span class="nav-text">Chapter 13 Objects</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Chapter_14_More_Messages"><span class="nav-number">2.</span> <span class="nav-text">Chapter 14 More Messages</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Chapter_15_Objects_and_Memory"><span class="nav-number">3.</span> <span class="nav-text">Chapter 15 Objects and Memory</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Chapter_16_NSString"><span class="nav-number">4.</span> <span class="nav-text">Chapter 16 NSString</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Chapter_17_NSArray"><span class="nav-number">5.</span> <span class="nav-text">Chapter 17 NSArray</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Chapter_18_Your_First_Classs"><span class="nav-number">6.</span> <span class="nav-text">Chapter 18 Your First Classs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Chapter_19_Properties"><span class="nav-number">7.</span> <span class="nav-text">Chapter 19 Properties</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Chapter_20_Inheritance"><span class="nav-number">8.</span> <span class="nav-text">Chapter 20 Inheritance</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Chapter_21_Object_Instance_Variables_and_Properties"><span class="nav-number">9.</span> <span class="nav-text">Chapter 21 Object Instance Variables and Properties</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Chapter_22_Class_Extensions"><span class="nav-number">10.</span> <span class="nav-text">Chapter 22 Class Extensions</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy; &nbsp;  2013 - 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CaptainJe</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"captainje"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>
