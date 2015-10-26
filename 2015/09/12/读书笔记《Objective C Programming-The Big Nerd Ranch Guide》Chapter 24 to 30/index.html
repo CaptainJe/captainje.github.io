@@ -44,12 +44,12 @@
 NSSet 没有顺序的集合，每隔项只能出现一次，用来查询某项是否在该集合中；">
 <meta property="og:type" content="article">
 <meta property="og:title" content="读书笔记《Objective C Programming - The Big Nerd Ranch Guide》Chapter 24 to 30">
-<meta property="og:url" content="http://yoursite.com/2015/09/08/读书笔记《Objective C Programming-The Big Nerd Ranch Guide》Chapter 24 to 30/index.html">
+<meta property="og:url" content="http://yoursite.com/2015/09/12/读书笔记《Objective C Programming-The Big Nerd Ranch Guide》Chapter 24 to 30/index.html">
 <meta property="og:site_name" content="CaptainJe's Blog">
 <meta property="og:description" content="Chapter 24 Collection Classes生词12delve-钻研，挖掘    solar-太阳光浴室，太阳的    ascending-上升    predicate-断言    discard-抛弃Wrap-包裹    primitive-原始的    extract-提取    scalar-纯量
 
 NSSet 没有顺序的集合，每隔项只能出现一次，用来查询某项是否在该集合中；">
-<meta property="og:updated_time" content="2015-10-26T06:07:41.433Z">
+<meta property="og:updated_time" content="2015-10-26T07:04:15.222Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="读书笔记《Objective C Programming - The Big Nerd Ranch Guide》Chapter 24 to 30">
 <meta name="twitter:description" content="Chapter 24 Collection Classes生词12delve-钻研，挖掘    solar-太阳光浴室，太阳的    ascending-上升    predicate-断言    discard-抛弃Wrap-包裹    primitive-原始的    extract-提取    scalar-纯量
@@ -198,8 +198,8 @@ NSSet 没有顺序的集合，每隔项只能出现一次，用来查询某项�
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2015-09-08T11:44:26+08:00" content="2015-09-08">
-            2015-09-08
+          <time itemprop="dateCreated" datetime="2015-09-12T11:44:26+08:00" content="2015-09-12">
+            2015-09-12
           </time>
         </span>
 
@@ -224,8 +224,8 @@ NSSet 没有顺序的集合，每隔项只能出现一次，用来查询某项�
           
             <span class="post-comments-count">
               &nbsp; | &nbsp;
-              <a href="/2015/09/08/读书笔记《Objective C Programming-The Big Nerd Ranch Guide》Chapter 24 to 30/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2015/09/08/读书笔记《Objective C Programming-The Big Nerd Ranch Guide》Chapter 24 to 30/" itemprop="commentsCount"></span>
+              <a href="/2015/09/12/读书笔记《Objective C Programming-The Big Nerd Ranch Guide》Chapter 24 to 30/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/09/12/读书笔记《Objective C Programming-The Big Nerd Ranch Guide》Chapter 24 to 30/" itemprop="commentsCount"></span>
               </a>
             </span>
           
@@ -243,10 +243,9 @@ NSSet 没有顺序的集合，每隔项只能出现一次，用来查询某项�
 <ol>
 <li>NSSet 没有顺序的集合，每隔项只能出现一次，用来查询某项是否在该集合中；</li>
 <li>Equal和identical</li>
-<li>NSDictionary保存key-value对，通过key可以返回value，这些key-value对没有顺序；<br>但是一个key只能对应一个value，如果给key再加一个value那么原先的value就会被覆盖。<br>声明一个NSDictionary的语法：<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">NSDictionary *numberOfMoons = @&#123; @<span class="string">"Earth"</span> : <span class="constant">@1</span>,</span><br><span class="line">							     @<span class="string">"Mars"</span>  : <span class="constant">@2</span>,</span><br><span class="line">								 @<span class="string">"Venus"</span> : <span class="constant">@0</span>,&#125;<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<li>NSDictionary保存key-value对，通过key可以返回value，这些key-value对没有顺序；<br>但是一个key只能对应一个value，如果给key再加一个value那么原先的value就会被覆盖。<br>声明一个NSDictionary的语法：<br><code>NSDictionary *numberOfMoons = @{ @&quot;Earth&quot; : @1,    @&quot;Mars&quot;  : @2, @&quot;Venus&quot; : @0,};</code><br>书上告诉我，keys是 NSString，Values are NSNumber, 可是你根本就没有声明过这两种类型啊？<br>下面这种方式，keys是NSString，Values 是 NSArray：<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">NSDictionary *innerPlanetsMoons = @&#123;</span><br><span class="line">	@<span class="string">"Mercury"</span>  : <span class="constant">@[]</span>,</span><br><span class="line">	@<span class="string">"Earth"</span>    : <span class="constant">@[</span> @<span class="string">"Luna"</span>],</span><br><span class="line">	@<span class="string">"Mars"</span>     : <span class="constant">@[</span> @<span class="string">"Deimos"</span>, @<span class="string">"Photos"</span>]&#125;<span class="comment">;</span></span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<p>书上告诉我，keys是 NSString，Values are NSNumber, 可是你根本就没有声明过这两种类型啊？<br>下面这种方式，keys是NSString，Values 是 NSArray：<br><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">NSDictionary *innerPlanetsMoons = @&#123;</span><br><span class="line">	@<span class="string">"Mercury"</span>  : <span class="constant">@[]</span>,</span><br><span class="line">	@<span class="string">"Earth"</span>    : <span class="constant">@[</span> @<span class="string">"Luna"</span>],</span><br><span class="line">	@<span class="string">"Mars"</span>     : <span class="constant">@[</span> @<span class="string">"Deimos"</span>, @<span class="string">"Photos"</span>]&#125;<span class="comment">;</span></span><br></pre></td></tr></table></figure></p>
 <p>好吧，我还是没搞明白，keys和values的类型到底是怎么确定的，接着看吧，找到答案再写。<br>搞明白咯： @[],@1,这些都是字面语法方式，本身就表示创建一个object，并返回object地址；<br>比如之前NSArray创建的例子：<br><code>NSArray *datalist = @[now,tomorrow,yesterday];</code></p>
 <ol>
 <li><p>关于不可变的一些类：immutable objects,他们不需要被copy，所以可以提高效率，节省内存；<br>可变的对象由于可能当前代码正在使用一个object的时候，别的代码改变了当对象的某些值，所以有很多copy同时存在内存中。<br>这点我不是很理解，书中没有详细讲清楚这种copy机制，比如说copy机制最后如何生效，如果一个object有N个copy，<br>那么到底哪个copy才是该真正起作用的呢？好吧，暂时没有接触到，后面找到答案再写。</p>
@@ -280,13 +279,13 @@ NSSet 没有顺序的集合，每隔项只能出现一次，用来查询某项�
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/09/11/读书笔记《Objective C Programming-The Big Nerd Ranch Guide》Chapter 6 to 11/" rel="prev">读书笔记《Objective C Programming - The Big Nerd Ranch Guide》Chapter 6 to 11</a>
+              <a href="/2015/09/12/读书笔记《Objective C Programming-The Big Nerd Ranch Guide》Chapter 13 to 23/" rel="prev">读书笔记《Objective C Programming - The Big Nerd Ranch Guide》Chapter 13 to 23</a>
             
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/09/08/读书笔记《Objective C Programming-The Big Nerd Ranch Guide》Chapter 1 to 5/" rel="next">读书笔记《Objective C Programming - The Big Nerd Ranch Guide》Chapter 1 to 5</a>
+              <a href="/2015/09/11/读书笔记《Objective C Programming-The Big Nerd Ranch Guide》Chapter 6 to 11/" rel="next">读书笔记《Objective C Programming - The Big Nerd Ranch Guide》Chapter 6 to 11</a>
             
           </div>
         </div>
@@ -311,8 +310,8 @@ NSSet 没有顺序的集合，每隔项只能出现一次，用来查询某项�
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2015/09/08/读书笔记《Objective C Programming-The Big Nerd Ranch Guide》Chapter 24 to 30/"
-                   data-title="读书笔记《Objective C Programming - The Big Nerd Ranch Guide》Chapter 24 to 30" data-url="http://yoursite.com/2015/09/08/读书笔记《Objective C Programming-The Big Nerd Ranch Guide》Chapter 24 to 30/">
+              <div class="ds-thread" data-thread-key="2015/09/12/读书笔记《Objective C Programming-The Big Nerd Ranch Guide》Chapter 24 to 30/"
+                   data-title="读书笔记《Objective C Programming - The Big Nerd Ranch Guide》Chapter 24 to 30" data-url="http://yoursite.com/2015/09/12/读书笔记《Objective C Programming-The Big Nerd Ranch Guide》Chapter 24 to 30/">
               </div>
             
           </div>
