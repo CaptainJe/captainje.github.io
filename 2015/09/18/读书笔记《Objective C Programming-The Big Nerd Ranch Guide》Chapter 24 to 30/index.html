@@ -26,7 +26,7 @@
 <link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
 
 
-    <meta name="description" content="weildjf asidjfal sjelfj aljdjl asf" />
+    <meta name="description" content="Brave Shine" />
 
 
 
@@ -44,12 +44,12 @@
 NSSet 没有顺序的集合，每隔项只能出现一次，用来查询某项是否在该集合中；">
 <meta property="og:type" content="article">
 <meta property="og:title" content="读书笔记《Objective C Programming - The Big Nerd Ranch Guide》Chapter 24 to 30">
-<meta property="og:url" content="http://yoursite.com/2015/09/12/读书笔记《Objective C Programming-The Big Nerd Ranch Guide》Chapter 24 to 30/index.html">
+<meta property="og:url" content="http://yoursite.com/2015/09/18/读书笔记《Objective C Programming-The Big Nerd Ranch Guide》Chapter 24 to 30/index.html">
 <meta property="og:site_name" content="CaptainJe's Blog">
 <meta property="og:description" content="Chapter 24 Collection Classes生词12delve-钻研，挖掘    solar-太阳光浴室，太阳的    ascending-上升    predicate-断言    discard-抛弃Wrap-包裹    primitive-原始的    extract-提取    scalar-纯量
 
 NSSet 没有顺序的集合，每隔项只能出现一次，用来查询某项是否在该集合中；">
-<meta property="og:updated_time" content="2015-10-26T07:04:15.222Z">
+<meta property="og:updated_time" content="2015-11-30T08:39:14.770Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="读书笔记《Objective C Programming - The Big Nerd Ranch Guide》Chapter 24 to 30">
 <meta name="twitter:description" content="Chapter 24 Collection Classes生词12delve-钻研，挖掘    solar-太阳光浴室，太阳的    ascending-上升    predicate-断言    discard-抛弃Wrap-包裹    primitive-原始的    extract-提取    scalar-纯量
@@ -60,7 +60,7 @@ NSSet 没有顺序的集合，每隔项只能出现一次，用来查询某项�
 <script type="text/javascript" id="hexo.configuration">
   var CONFIG = {
     scheme: 'Mist',
-    sidebar: 'post'
+    sidebar: 'always'
   };
 </script>
 
@@ -198,8 +198,8 @@ NSSet 没有顺序的集合，每隔项只能出现一次，用来查询某项�
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2015-09-12T11:44:26+08:00" content="2015-09-12">
-            2015-09-12
+          <time itemprop="dateCreated" datetime="2015-09-18T11:44:26+08:00" content="2015-09-18">
+            2015-09-18
           </time>
         </span>
 
@@ -224,8 +224,8 @@ NSSet 没有顺序的集合，每隔项只能出现一次，用来查询某项�
           
             <span class="post-comments-count">
               &nbsp; | &nbsp;
-              <a href="/2015/09/12/读书笔记《Objective C Programming-The Big Nerd Ranch Guide》Chapter 24 to 30/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2015/09/12/读书笔记《Objective C Programming-The Big Nerd Ranch Guide》Chapter 24 to 30/" itemprop="commentsCount"></span>
+              <a href="/2015/09/18/读书笔记《Objective C Programming-The Big Nerd Ranch Guide》Chapter 24 to 30/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/09/18/读书笔记《Objective C Programming-The Big Nerd Ranch Guide》Chapter 24 to 30/" itemprop="commentsCount"></span>
               </a>
             </span>
           
@@ -260,6 +260,52 @@ NSSet 没有顺序的集合，每隔项只能出现一次，用来查询某项�
 </li>
 <li>集合中不能包含nil，有一个类叫做NSNull，代表什么也没有，<code>[hotel addObject:[NSNull null]];</code></li>
 </ol>
+<h2 id="Chapter_25_Constants">Chapter 25 Constants</h2><p>生词<br><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="label">clutter</span>-杂乱，混乱    geographical-地里的    <span class="keyword">blender-搅拌机 </span>   stir-搅拌</span><br><span class="line"><span class="label">liquefy</span>-液化</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>快捷键Command+变量 转到定义处</li>
+<li>etern means “I promise this exists, but it will be defined in some other file.”</li>
+<li>NS_ENUM()是一个预定义的宏，最大优势是可以指定枚举变量的类型，节省空间；</li>
+<li>既然已经有了#defined 来定义常量，为什么还要使用全局变量来定义常量呢？<br>因为在一些场合，全局变量更加搞笑，比如对比字符串的时候，== 比 isEqual更高效；<br>而且使用全局变量更容易仿真。所以一般应该使用常量或者全局变量来定义枚举或常量而不是用#define</li>
+</ol>
+<h2 id="Chapter_26_Writing_Files_with_NSString_and_NSData">Chapter 26 Writing Files with NSString and NSData</h2><p>生词<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">incredible-难以置信的</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>读写文件需要先定义好文件字符编码格式，比如ASCII定义’A’为01000001； UTF-16定义’A’为00000000 01000001；</li>
+<li>Fundation框架支持大约20种编码格式，一般常用UTF-8；</li>
+<li>NSError:In essence, you are passing the address of another address(which may become the address of an NSError object)</li>
+</ol>
+<h2 id="Chapter_27_Callbacks">Chapter 27 Callbacks</h2><p>生词<br><figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">synchronous</span>-同步的    asynchronous-异步的    demand-需求    crdential-证书    fluke-侥幸</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>四种类型的callback： Target-action； Helper objects; Notification; Blocks.</li>
+<li>NSRunLoop: 在一个事件驱动的程序里，需要有一个对象来等待事件发生，我们说当事件发生的时候，Runloop 引起一个callback的发生.</li>
+<li><p>一段target-action类型callback的代码：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> main (<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> *argv[])</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">@autoreleasepool</span>&#123;</span><br><span class="line">		BNRLogger *logger = [[BNRLogger alloc] init];</span><br><span class="line">		<span class="built_in">NSTimer</span> *timer = [<span class="built_in">NSTimer</span> scheduledTimerWithTimeInterval: <span class="number">2.0</span></span><br><span class="line">												target:logger</span><br><span class="line">											selector: <span class="keyword">@selector</span> (updateLastTime:)</span><br><span class="line">										    userInfo: <span class="literal">nil</span></span><br><span class="line">											repeats:  <span class="literal">YES</span>];</span><br><span class="line"> 	[[<span class="built_in">NSRunLoop</span> currentRunLoop] run];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>同步取URL数据有两个问题：获取数据的过程中阻碍了主进程的执行，界面可能会卡住；如果服务器需要用户名和密码的话，没办法回调.</p>
+</li>
+<li>这种情况下，需要用helper object来处理这种困难的通信相关事件.</li>
+<li>objects只对一件事情回应，使用target-action；对类似于通信的，使用helper object代理；可能需要对很多别的object产生的时间回应，使用Notifications.</li>
+<li>向一个对象发送消息之后，对象要按照继承关系一层一层向上索引，知道找到该方法；如果用方法名来索引就太慢了，所以编译器用数字为每一个方法编号，通过编号索引.<br>还是不理解selector，之后再查找补充；</li>
+</ol>
+<h2 id="Chapter_28_Blocks">Chapter 28 Blocks</h2><p>生词<br><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="label">caret</span>-记号，符号    anonymous-匿名的    elegant-高雅的，简洁的    <span class="keyword">iterate-迭代 </span>   compose-组成，排版</span><br><span class="line"><span class="label">nuance</span>-细微差别</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>许多apple的calss方法接受block作为参数；比如NSArray等，会对这个arry中的每个对象执行block代码.</li>
+<li>不明白block和方法的区别；看资料暂时理解为如果需要传递一个函数作为参数，就使用block；</li>
+<li>无名block，无名参数传递等  anonymous</li>
+<li>block使用外部变量，私有变量在block里存一份copy，指针会在block里保存强引用； (If you have been wondering<br>about the difference between blocks and function pointers, it is right here）</li>
+<li>在block内使用self strong local reference :By creating the strong innerSelfreference, you have again created a strong reference cycle between<br>the block and the BNREmployeeinstance. But because the innerSelfreference is local to the scope of<br>the block, the strong reference cycle will only exist while the block is executing and will be broken<br>automatically when the block ends.</li>
+<li>默认block里无法改变外部变量的值，只有将外部变量加_block关键字</li>
+</ol>
+<h2 id="Chapter_29_Protocols">Chapter 29 Protocols</h2><p>生词<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stern-尾端，严厉的</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>Protocol定义一组方法声明，其中一些是必须实现的，另一些选择实现；</li>
+<li>Protocol可以继承；</li>
+<li>如果向一个对象发送一个没有应用的消息，程序会崩溃，所以再发送optional消息时候要先问一下；</li>
+</ol>
+<h2 id="Chapter_30_Property_Lists">Chapter 30 Property Lists</h2><p>生词</p>
+<pre><code>
+</code></pre><ol>
+<li>属性列表，没用过还是不理解妙处，看来必须实际去用才理解记忆深刻.看完本书就开始搞我的第一个APP。</li>
+</ol>
 </span>
       
     </div>
@@ -279,13 +325,13 @@ NSSet 没有顺序的集合，每隔项只能出现一次，用来查询某项�
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/09/12/读书笔记《Objective C Programming-The Big Nerd Ranch Guide》Chapter 13 to 23/" rel="prev">读书笔记《Objective C Programming - The Big Nerd Ranch Guide》Chapter 13 to 23</a>
+              <a href="/2015/09/19/读书笔记《Objective C Programming-The Big Nerd Ranch Guide》Chapter 31 to 37/" rel="prev">读书笔记《Objective C Programming - The Big Nerd Ranch Guide》Chapter 31 to 37</a>
             
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/09/11/读书笔记《Objective C Programming-The Big Nerd Ranch Guide》Chapter 6 to 11/" rel="next">读书笔记《Objective C Programming - The Big Nerd Ranch Guide》Chapter 6 to 11</a>
+              <a href="/2015/09/17/读书笔记《Objective C Programming-The Big Nerd Ranch Guide》Chapter 13 to 23/" rel="next">读书笔记《Objective C Programming - The Big Nerd Ranch Guide》Chapter 13 to 23</a>
             
           </div>
         </div>
@@ -310,8 +356,8 @@ NSSet 没有顺序的集合，每隔项只能出现一次，用来查询某项�
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2015/09/12/读书笔记《Objective C Programming-The Big Nerd Ranch Guide》Chapter 24 to 30/"
-                   data-title="读书笔记《Objective C Programming - The Big Nerd Ranch Guide》Chapter 24 to 30" data-url="http://yoursite.com/2015/09/12/读书笔记《Objective C Programming-The Big Nerd Ranch Guide》Chapter 24 to 30/">
+              <div class="ds-thread" data-thread-key="2015/09/18/读书笔记《Objective C Programming-The Big Nerd Ranch Guide》Chapter 24 to 30/"
+                   data-title="读书笔记《Objective C Programming - The Big Nerd Ranch Guide》Chapter 24 to 30" data-url="http://yoursite.com/2015/09/18/读书笔记《Objective C Programming-The Big Nerd Ranch Guide》Chapter 24 to 30/">
               </div>
             
           </div>
@@ -347,11 +393,11 @@ NSSet 没有顺序的集合，每隔项只能出现一次，用来查询某项�
           <img class="site-author-image" src="https://avatars2.githubusercontent.com/u/13464469?v=3&s=460" alt="CaptainJe" itemprop="image"/>
           <p class="site-author-name" itemprop="name">CaptainJe</p>
         </div>
-        <p class="site-description motion-element" itemprop="description">weildjf asidjfal sjelfj aljdjl asf</p>
+        <p class="site-description motion-element" itemprop="description">Brave Shine</p>
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-count">8</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -403,7 +449,7 @@ NSSet 没有顺序的集合，每隔项只能出现一次，用来查询某项�
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Chapter_24_Collection_Classes"><span class="nav-number">1.</span> <span class="nav-text">Chapter 24 Collection Classes</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Chapter_24_Collection_Classes"><span class="nav-number">1.</span> <span class="nav-text">Chapter 24 Collection Classes</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Chapter_25_Constants"><span class="nav-number">2.</span> <span class="nav-text">Chapter 25 Constants</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Chapter_26_Writing_Files_with_NSString_and_NSData"><span class="nav-number">3.</span> <span class="nav-text">Chapter 26 Writing Files with NSString and NSData</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Chapter_27_Callbacks"><span class="nav-number">4.</span> <span class="nav-text">Chapter 27 Callbacks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Chapter_28_Blocks"><span class="nav-number">5.</span> <span class="nav-text">Chapter 28 Blocks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Chapter_29_Protocols"><span class="nav-number">6.</span> <span class="nav-text">Chapter 29 Protocols</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Chapter_30_Property_Lists"><span class="nav-number">7.</span> <span class="nav-text">Chapter 30 Property Lists</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
