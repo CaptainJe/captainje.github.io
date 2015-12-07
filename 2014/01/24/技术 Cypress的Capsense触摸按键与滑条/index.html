@@ -1,0 +1,671 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+    <meta name="description" content="Brave Shine" />
+
+
+
+  <meta name="keywords" content="触摸，技术， capsense," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="https://avatars2.githubusercontent.com/u/13464469?v=3&s=460?v=0.4.5.1" />
+
+
+<meta name="description" content="工作原理就不说了，从cypress的数据手册上可以了解，如果仅仅是为了使用capsense按键与滑条，只需要知道如何用就好了，深入原理不必深究。这里主要说下如何具体实现capsense按键与滑条。
+如何开始设计：首先要选择需要的芯片，然后下载该芯片的数据手册仔细阅读，配置好开发环境，在对该款芯片的内部资源和开发环境有了一定了解后再开始设计。由于模拟部分和驱动固件，cypress已经完全集成在芯片里">
+<meta property="og:type" content="article">
+<meta property="og:title" content="技术 Cypress的Capsense触摸按键与滑条">
+<meta property="og:url" content="http://yoursite.com/2014/01/24/技术 Cypress的Capsense触摸按键与滑条/index.html">
+<meta property="og:site_name" content="CaptainJe's Blog">
+<meta property="og:description" content="工作原理就不说了，从cypress的数据手册上可以了解，如果仅仅是为了使用capsense按键与滑条，只需要知道如何用就好了，深入原理不必深究。这里主要说下如何具体实现capsense按键与滑条。
+如何开始设计：首先要选择需要的芯片，然后下载该芯片的数据手册仔细阅读，配置好开发环境，在对该款芯片的内部资源和开发环境有了一定了解后再开始设计。由于模拟部分和驱动固件，cypress已经完全集成在芯片里">
+<meta property="og:updated_time" content="2015-12-07T08:58:37.980Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="技术 Cypress的Capsense触摸按键与滑条">
+<meta name="twitter:description" content="工作原理就不说了，从cypress的数据手册上可以了解，如果仅仅是为了使用capsense按键与滑条，只需要知道如何用就好了，深入原理不必深究。这里主要说下如何具体实现capsense按键与滑条。
+如何开始设计：首先要选择需要的芯片，然后下载该芯片的数据手册仔细阅读，配置好开发环境，在对该款芯片的内部资源和开发环境有了一定了解后再开始设计。由于模拟部分和驱动固件，cypress已经完全集成在芯片里">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'always'
+  };
+</script>
+
+  <title> 技术 Cypress的Capsense触摸按键与滑条 | CaptainJe's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?4c23a7bd61e4639a1d732369a9c18096";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">CaptainJe's Blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              技术 Cypress的Capsense触摸按键与滑条
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2014-01-24T15:41:15+08:00" content="2014-01-24">
+            2014-01-24
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/技术/" itemprop="url" rel="index">
+                  <span itemprop="name">技术</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/2014/01/24/技术 Cypress的Capsense触摸按键与滑条/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2014/01/24/技术 Cypress的Capsense触摸按键与滑条/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>工作原理就不说了，从cypress的数据手册上可以了解，如果仅仅是为了使用capsense按键与滑条，只需要知道如何用就好了，深入原理不必深究。<br>这里主要说下如何具体实现capsense按键与滑条。</p>
+<h2 id="如何开始设计：">如何开始设计：</h2><p>首先要选择需要的芯片，然后下载该芯片的数据手册仔细阅读，配置好开发环境，在对该款芯片的内部资源和开发环境有了一定了解后再开始设计。<br>由于模拟部分和驱动固件，cypress已经完全集成在芯片里了，用户要做的就只是PCB layout需要的按键与滑条。然后分配到cypress触摸芯片的相应管脚。<br>关于PCB layout的一些指导，建议仔细阅读cypress的三个文档，这三个文档在cypress官网上都可以下载到，分别是：<br>Capacitance Sensing - Layout Guidelines for PSoC CapSense - AN2292 (ZH).pdf<br>CapSense(TM) Best Practices - AN2394 (ZH).pdf<br>Getting Started with CapSense_ZH_001-78942[3604].pdf<br>这些文件中讲解了capsense  sensor（就是铜皮啦~）的形状建议，布线规则等。其中比较重要的是：</p>
+<ol>
+<li>PCB上的capsense区域，正反面要用网格铺铜。</li>
+<li>触摸按键，滑条的形状最好按照推荐的形状尺寸来。</li>
+<li>离CPU的距离尽量短。</li>
+</ol>
+<h2 id="最主要的工作：PCB_Layout_capsense_sensor：">最主要的工作：PCB Layout capsense sensor：</h2><p>可以看到capsense sensor其实就是一块特定形状的铜皮，有些是规则的，有些是不规则的，通过铜皮与周围铺铜地 之间电容的变化来检测手指的触摸。<br>在Altium Designer中画铜皮有几种办法： 实心区域，铺铜；用放置实心区域的办法，可以做出一些多边形，圆形的铜皮，但是没有办法做出radial slider—-圆形滑条的形状。<br>仅仅使用按键和条状滑条的时候，用实心区域比较快捷，画圆形滑条只能用铺铜的方法来做cpasense  sensor，AD10铺出任意不规则形状的方法，可以百度一下有详细说明。<br>用实习区域做出规则形状的按键和滑条：</p>
+<blockquote>
+<p>配图即将更新</p>
+</blockquote>
+<p>为了方便原理图和PCB的对接，把capsense 的sensor 铜皮做成了PCB封装，这样从原理图更新到PCB的时候，就直接可以当做一个元件来使用了。当然也可以不这样做，直接在PCB中现画。<br>圆形滑条要求比较特别，用放置实心区域无法做出那样的形状，只能通过设定keepoutlayer一个形状，然后在编辑PCB时，对该区域进行铺铜。参考网上的设计方案，做了两种形状：</p>
+<blockquote>
+<p>配图即将更新</p>
+</blockquote>
+<p>第一种形状相对于第二种形状，手指将会同时接触到更多的sensor，和条状滑条做成锯齿状的原理一样，增加灵敏度，<br>上面两个图都是用了10个sensor的，用更少或更多的sensor也是可以的。<br>圆形滑条的设计在手册中说的不是很多，如果需要参照的话，可以留言给我，或者是推荐下载cypress的一个圆形滑条开发套件的资料，参照那个资料里面的layout，不过资料里的PCB文件是candence格式的，用AD打开可能会显示不正常。套件的名字是：<br>CY3280-SRM Board                                官网上可以下载全套资料。</p>
+<h2 id="Sensor对应的NET，以及按键或滑条内嵌LED的技巧：">Sensor对应的NET，以及按键或滑条内嵌LED的技巧：</h2><p>如果用直接铺了一整块铜皮的方法完成capsense sensor铜皮的绘制，就比较麻烦了，因为是一整块铜，而10个sensor对应不同的网络。当然可以通过设定AD的规则来强制连线，但是毕竟是不符合规则的，由于博主比较钻牛角尖，必须让PCB所有部分符合自己设定的规则，（为了保证正确性，有经验的老手可以无视~）博主的做法是割铜，按照形状用silce polygen pour 分割成10块铜，分别给每块铜设定网络。或者在一开始铺铜的时候就一块一块铺，铺10块。<br>在按键或者滑条中内嵌一个LED作为指示反馈是很好的做法，但是手册上却没有明确说明到底如何安装这个LED，直接放在toplayer的sensor上的话，根本没办法贴覆盖层，并且会有凸起，手指没办法触摸。从CY3280-SRM板子的layout里，可以看出来，是通过吧LED焊盘放在bottom layer，然后在sensor上开孔的做法来实现的。就如上图中圆形滑条中央的那个设计，这样从背面贴LED，同时光可以从sensor中央透出来，对贴覆盖层和手指触摸完全没有影响。</p>
+<h2 id="固件设计：">固件设计：</h2><p>cypress已经把capsense的驱动封装成函数形式了，举个例子，博主使用的PSOC Desiger开发环境中，配置好capsense模块，编译后直接包含CSD模块的头文件和C文件。通过里面的函数可以得到用数字表示的触摸检测量。这个数值的大小是你在放置CSD模块的时候可以设置的，CSD模块的详细参数都是自己配置的，具体参数意义和实例代码请参照CSD模块的数据手册。<br>相信阅读过一定Cypress技术资料后，这些调用函数获得触摸检测量的数字值并不难。笔者这里要说的是数据手册上没有的东西：capsense滑条的固件优化。<br>cypress提供获得触摸参数的函数是：1.CSD_1_wGetRadialPos(1)；<br>提供获得手指移动方向的函数是：2.CSD_1_wGetRadialInc(BYTE bSnsGroup);<br>仅仅通过判断手指位置来执行操作的话，使用函数1已经足够了，但是如果要通过获得滑动方向，滑动量，来进行控制，仅仅使用函数1或者函数2已经不够了。表面上来看，如果想通过滑动控制，在while（1）中不断调用函数2，获得滑动方向就好了，单实际上仅仅使用函数2获得的控制效果一点也不好，有的时候完全是混乱的，这源于函数2的执行机制，每次调用函数2，实际上芯片执行的操作是：调用函数1，得到当前手指位置，与上一次保存的手指位置比较，确定方向。<br>使用while不断检测，检测时间根本没办法确定，同样的程序，较快速地从头滑到尾，执行的操作可能只有几次，而很慢地从头滑到尾，却会执行很多次。我们希望的良好的控制体验是：手指放上去，滑动一定距离，手指离开，根据滑动的这段距离来执行相应操作。<br>这里用一段小程序来解释如何实现良好的控制体验：<br><figure class="highlight openscad"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">while<span class="params">(<span class="number">1</span>)</span></span><br><span class="line">	&#123; </span><br><span class="line"></span><br><span class="line">		CSD_1_ScanAllSensors<span class="params">()</span>;</span><br><span class="line">		CSD_1_UpdateAllBaselines<span class="params">()</span>;</span><br><span class="line">                 pos1=CSD_1_wGetRadialPos<span class="params">(<span class="number">1</span>)</span>;          <span class="comment">//循环开始，检测手指位置。</span></span><br><span class="line">                        <span class="keyword">if</span><span class="params">(pos1&lt;<span class="number">100</span>)</span>           <span class="comment">//设定的阈值是100，无手指接触时获得数字是255；&lt;100表示有手指按下。</span></span><br><span class="line">		&#123;</span><br><span class="line">			while<span class="params">(pos1&lt;<span class="number">100</span>)</span>                        <span class="comment">//如果有手指接触到滑条，表示开始一次滑动，直到手指离开，一次滑动完成。</span></span><br><span class="line">			&#123;</span><br><span class="line">					<span class="keyword">if</span><span class="params">(sign==<span class="number">0</span>)</span>                           <span class="comment">//是否是第一次的接触</span></span><br><span class="line">					&#123; start=pos1;<span class="built_in">sign</span>=<span class="number">1</span>;&#125;         <span class="comment">//如果是第一次的接触，就保存当前手指位置作为开始位置，并清除标志</span></span><br><span class="line">					incf=pos1-start;                 <span class="comment">//获得增量</span></span><br><span class="line">					UpdateSliderPosition<span class="params">(incf)</span>;       <span class="comment">//根据这个增量来实时更新显示或者别的操作</span></span><br><span class="line">					CSD_1_ScanAllSensors<span class="params">()</span>;</span><br><span class="line">					CSD_1_UpdateAllBaselines<span class="params">()</span>;    </span><br><span class="line">					pos1=CSD_1_wGetRadialPos<span class="params">(<span class="number">1</span>)</span>; <span class="comment">//再次扫描获得手指位置，</span></span><br><span class="line">			&#125;</span><br><span class="line">			                                                 <span class="comment">//跳出循环表示一次滑动完成，这时候incf中保存的数据就是总的增量</span></span><br><span class="line">			<span class="built_in">sign</span>=<span class="number">0</span>;                                  <span class="comment">//第一次接触标志设为0，用于下一次检测首次接触</span></span><br><span class="line">			start=<span class="number">0</span>;</span><br><span class="line">                    <span class="comment">/*完成一次滑动后，根据滑动量，你要执行的操作代码    。。。。。*/</span>       </span><br><span class="line">                 &#125;</span><br></pre></td></tr></table></figure></p>
+<p>使用这样的机制，控制体验非常好，手指接触之后左右移动都可以实时更新显示，同时最后的操作只根据此次滑动的最终量来执行。用在我们的卤素灯亮度调控产品上，效果很好。TFT液晶屏上的进度条随着滑动实时更新，完成一次滑动后，根据设定的值，控制卤素灯亮度。<br>若有问题，需要帮助，可以留言联系博主，有相关合作项目的，也欢迎留言联系。<br>博主自己用PSOC这么长时间，觉得用PSOC开发项目真的很快，比用普通单片机的系统设计可以节省一半的时间吧。Cypress的开发套件都很贵，一套要几千元，博主想开发一套廉价的开发套件同时详细写一些开发资料方便大家快速上手PSOC 芯片，有人要么？要的话，博主就开始做，不过国内用cypress芯片的好像比较少，看过这篇文章的都来说下需不需要，也不枉博主写下这些东西啊。</p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/触摸，技术，-capsense/" rel="tag">#触摸，技术， capsense</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/09/02/hello-world/" rel="prev">Hello world</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/01/23/问题 UCOSII在PC机上仿真，安装TASM5.0不成功/" rel="next">问题 UCOSII在PC机上仿真，安装TASM5.0不成功</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div class="ds-thread" data-thread-key="2014/01/24/技术 Cypress的Capsense触摸按键与滑条/"
+                   data-title="技术 Cypress的Capsense触摸按键与滑条" data-url="http://yoursite.com/2014/01/24/技术 Cypress的Capsense触摸按键与滑条/">
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="https://avatars2.githubusercontent.com/u/13464469?v=3&s=460" alt="CaptainJe" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">CaptainJe</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">Brave Shine</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">14</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">7</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/CaptainJe" target="_blank">Github</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#如何开始设计："><span class="nav-number">1.</span> <span class="nav-text">如何开始设计：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最主要的工作：PCB_Layout_capsense_sensor："><span class="nav-number">2.</span> <span class="nav-text">最主要的工作：PCB Layout capsense sensor：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sensor对应的NET，以及按键或滑条内嵌LED的技巧："><span class="nav-number">3.</span> <span class="nav-text">Sensor对应的NET，以及按键或滑条内嵌LED的技巧：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#固件设计："><span class="nav-number">4.</span> <span class="nav-text">固件设计：</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy; &nbsp;  2013 - 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CaptainJe</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"captainje"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>

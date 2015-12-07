@@ -1,0 +1,690 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+    <meta name="description" content="Brave Shine" />
+
+
+
+  <meta name="keywords" content="模拟电路，硬件," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="https://avatars2.githubusercontent.com/u/13464469?v=3&s=460?v=0.4.5.1" />
+
+
+<meta name="description" content="转来的一篇文章，对理解运放特别有好处，出处已经无从考察了，自己正在整理markdown格式。
+运算放大器组成的电路五花八门，令人眼花瞭乱，是模拟电路中学习的重点。在分析它的工作原理时倘没有抓住核心，往往令人头大。为此本人特搜罗天下运放电路之应用，来个“庖丁解牛”，希望各位从事电路板维 修的同行，看完后有所斩获。
+遍观所有模拟电子技朮的书籍和课程，在介绍运算放大器电路的时候，无非是先给电路来个定性，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="电路 运算放大器虚短，虚断分析（转来的）">
+<meta property="og:url" content="http://yoursite.com/2014/01/23/电路 运算烦恼歌大气虚短，虚断分析（转来的）/index.html">
+<meta property="og:site_name" content="CaptainJe's Blog">
+<meta property="og:description" content="转来的一篇文章，对理解运放特别有好处，出处已经无从考察了，自己正在整理markdown格式。
+运算放大器组成的电路五花八门，令人眼花瞭乱，是模拟电路中学习的重点。在分析它的工作原理时倘没有抓住核心，往往令人头大。为此本人特搜罗天下运放电路之应用，来个“庖丁解牛”，希望各位从事电路板维 修的同行，看完后有所斩获。
+遍观所有模拟电子技朮的书籍和课程，在介绍运算放大器电路的时候，无非是先给电路来个定性，">
+<meta property="og:updated_time" content="2015-12-07T08:28:27.853Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="电路 运算放大器虚短，虚断分析（转来的）">
+<meta name="twitter:description" content="转来的一篇文章，对理解运放特别有好处，出处已经无从考察了，自己正在整理markdown格式。
+运算放大器组成的电路五花八门，令人眼花瞭乱，是模拟电路中学习的重点。在分析它的工作原理时倘没有抓住核心，往往令人头大。为此本人特搜罗天下运放电路之应用，来个“庖丁解牛”，希望各位从事电路板维 修的同行，看完后有所斩获。
+遍观所有模拟电子技朮的书籍和课程，在介绍运算放大器电路的时候，无非是先给电路来个定性，">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'always'
+  };
+</script>
+
+  <title> 电路 运算放大器虚短，虚断分析（转来的） | CaptainJe's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?4c23a7bd61e4639a1d732369a9c18096";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">CaptainJe's Blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              电路 运算放大器虚短，虚断分析（转来的）
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2014-01-23T13:41:20+08:00" content="2014-01-23">
+            2014-01-23
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/电路/" itemprop="url" rel="index">
+                  <span itemprop="name">电路</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/2014/01/23/电路 运算烦恼歌大气虚短，虚断分析（转来的）/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2014/01/23/电路 运算烦恼歌大气虚短，虚断分析（转来的）/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>转来的一篇文章，对理解运放特别有好处，出处已经无从考察了，自己正在整理markdown格式。</p>
+<p>运算放大器组成的电路五花八门，令人眼花瞭乱，是模拟电路中学习的重点。<br>在分析它的工作原理时倘没有抓住核心，往往令人头大。为此本人特搜罗天下运放电路之应用，来个“庖丁解牛”，希望各位从事电路板维 修的同行，看完后有所斩获。</p>
+<p>遍观所有模拟电子技朮的书籍和课程，在介绍运算放大器电路的时候，无非是先给电路来个定性，比如这是一个同向放大器，然后去推导它的输出与输入的关系，然 后得出Vo=(1+Rf)Vi，那是一个反向放大器，然后得出Vo=-Rf*Vi……最后学生往往得出这样一个印象：记住公式就可以了！如果我们将电路稍 稍变换一下，他们就找不着北了！偶曾经面试过至少100个以上的大专以上学历的电子专业应聘者，结果能将我给出的运算放大器电路分析得一点不错的没有超过 10个人！其它专业毕业的更是可想而知了。<br>今天，芯片级维修教各位战无不胜的两招，这两招在所有运放电路的教材里都写得明白，就是“虚短”和“虚 断”，不过要把它运用得出神入化，就要有较深厚的功底了。</p>
+<p>##虚短和虚断的概念<br>由于运放的电压放大倍数很大，一般通用型运算放大器的开环电压放大倍数都在80 dB以上。 而运放的输出电压是有限的，一般在 10 V～14 V。因此运放的差模输入电压不足1 mV，两输入端近似等 电位，相当于 “短路”。开环电压放大倍数越大，两输入端的电位越接近相等。<br>“虚短”是指在分析运算放大器处于线性状态时，可把两输入端视为等电位，这一特性称为虚假短路，简称虚短。显然不能将两输入端真正短路。<br>由于运放的差模输入电阻很大，一般通用型运算放大器的输入电阻都在1MΩ以上。因此流入运放输入端的电 流往往不足1uA，远小于输入端外电路的电流。故 通常可把运放的两输入端视为开路，且输入电阻越大，两输入端越接近开路。“虚断”是指在分析 运放处于线性状态时，可以把两输入端视为等效开路，这一特性 称为虚假开路，简称虚断。显然不能将两输入端真正断路。<br>在分析运放电路工作原理时，首先请各位暂时忘掉什么同向放大、反向放大，什么加法器、减法器，什么差动 输入……暂时忘掉那些输入输出关系的公式……这些东东只会干扰你，让你更糊涂﹔也请各位暂时不要理会输入偏置电流、共模抑制比、失调电压等电路参数，这是 设计者要考虑的事情。我们理解的就是理想放大器（其实在维修中和大多数设计过程中，把实际放大器当做理想放大器来分析也不会有问题）。</p>
+<p>##实际电路分析<br>好了，让我们抓过两把“板斧”——“虚短”和“虚断”，开始“庖丁解牛”了。</p>
+<ol>
+<li><p>点击察看原图<br>图一运放的同向端接地=0V，反向端和同向端虚短，所以也是0V，反向输入端输入电阻很高，虚断，几 乎没有电流注入和流出，那么R1和R2相当于是串联的，流过一个串联电路中的每一只组件的电流是相同的，即流过R1的电流和流过R2的电流是相同的。流过 R1的电流I1 = (Vi - V-)/R1 ……a 流过R2的电流I2 = (V- - Vout)/R2 ……b V- = V+ = 0 ……c I1 = I2 ……d 求解上面的初中代数方程得Vout = (-R2/R1)*Vi 这就是传说中的反向放大器的输入输出关系式了</p>
+</li>
+<li><p>点击察看原图<br>图二中Vi与V-虚短，则 Vi = V- ……a 因为虚断，反向输入端没有电流输入输出，通过R1和R2 的电流相等，设此电流为I，由欧姆定律得： I = Vout/(R1+R2) ……b Vi等于R2上的分压， 即：Vi = I<em>R2 ……c 由abc式得Vout=Vi</em>(R1+R2)/R2 这就是传说中的同向放大器的公式了。</p>
+</li>
+<li><p>点击察看原图<br>图三中，由虚短知： V- = V+ = 0 ……a 由虚断及基尔霍夫定律知，通过R2与R1的电流之和等于通过R3的电流，故 (V1 – V-)/R1 + (V2 – V-)/R2 = (Vout – V-)/R3 ……b 代入a式，b式变为V1/R1 + V2/R2 = Vout/R3 如果取R1=R2=R3，则上式变为Vout=V1+V2，这就是传说中的反向加法器了。</p>
+</li>
+<li><p>点击察看原图<br>请看图四。因为虚断，运放同向端没有电流流过，则流过R1和R2的电流相等，同理流过R4和R3的电 流也相等。故 (V1 – V+)/R1 = (V+ - V2)/R2 ……a (Vout – V-)/R3 = V-/R4 ……b 由虚短知： V+ = V- ……c 如果R1=R2，R3=R4，则由以上式子可以推导出 V+ = (V1 + V2)/2 V- = Vout/2 故 Vout = V1 + V2 也是一个加法器，呵呵！</p>
+</li>
+<li><p>点击察看原图<br>图五由虚断知，通过R1的电流等于通过R2的电流，同理通过R4的电流等于R3的电流，故有 (V2 – V+)/R1 = V+/R2 ……a (V1 – V-)/R4 = (V- - Vout)/R3 ……b 如果R1=R2， 则V+ = V2/2 ……c 如果R3=R4， 则V- = (Vout + V1)/2 ……d 由虚短知 V+ = V- ……e 所以 Vout=V2-V1 这就是传说中的减法器了。</p>
+</li>
+</ol>
+<ol>
+<li>点击察看原图<br>图六电路中，由虚短知，反向输入端的电压与同向端相等，由虚断知，通过R1的电流与通过C1的电流相 等。通过R1的电流 i=V1/R1 通过C1的电流i=C<em>dUc/dt=-C</em>dVout/dt 所以 Vout=((-1/(R1<em>C1))∫V1dt 输出电压与输入电压对时间的积分成正比,这就是传说中的积分电路了。若V1为恒定电压U，则上式变换为Vout = -U</em>t/(R1*C1) t 是时间，则Vout输出电压是一条从0至负电源电压按时间变化的直线。</li>
+</ol>
+<ol>
+<li>点击察看原图<br>图七中由虚断知，通过电容C1和电阻R2的电流是相等的，由虚短知，运放同向端与反向端电压是相等 的。则： Vout = -i <em> R2 = -(R2</em>C1)dV1/dt 这是一个微分电路。如果V1是一个突然加入的直流电压，则输出Vout对应一个方向与V1相反的脉冲。</li>
+</ol>
+<ol>
+<li>点击察看原图<br>图八.由虚短知 Vx = V1 ……a Vy = V2 ……b 由虚断知，运放输入端没有电流流过，则R1、R2、R3可视为串联，通过每一个电阻的电流是相同的， 电流I=(Vx-Vy)/R2 ……c 则： Vo1-Vo2=I*(R1+R2+R3) = (Vx-Vy)(R1+R2+R3)/R2 ……d 由虚断知，流过R6与流过R7的电流相等,若R6=R7， 则Vw = Vo2/2 ……e 同理若R4=R5，则Vout – Vu = Vu – Vo1，故Vu = (Vout+Vo1)/2 ……f 由虚短知，Vu = Vw ……g 由efg得 Vout = Vo2 – Vo1 ……h 由dh得 Vout = (Vy –Vx)(R1+R2+R3)/R2 上式中(R1+R2+R3)/R2是定值，此值确定了差值(Vy –Vx)的放大倍数。这个电路就是传说中的差分放大电路了。</li>
+</ol>
+<ol>
+<li>点击察看原图<br>分析一个大家接触得较多的电路。很多控制器接受来自各种检测仪表的0~20mA或4~20mA电流， 电路将此电流转换成电压后再送ADC转换成数字信号，图九就是这样一个典型电路。如图4~20mA电流流过采样100Ω电阻R1，在R1上会产生 0.4~2V的电压差。由虚断知，运放输入端没有电流流过，则流过R3和R5的电流相等，流过R2和R4的电流相等。故： (V2-Vy)/R3 = Vy/R5 ……a (V1-Vx)/R2 = (Vx-Vout)/R4 ……b 由虚短知： Vx = Vy ……c 电流从0~20mA变化，则V1 = V2 + (0.4~2) ……d 由cd式代入b式得(V2 + (0.4~2)-Vy)/R2 = (Vy-Vout)/R4 ……e 如果R3=R2，R4=R5，则由e-a得Vout = -(0.4~2)R4/R2 ……f 图九中R4/R2=22k/10k=2.2，则f式Vout = -(0.88~4.4)V，即是说，将4~20mA电流转换成了-0.88 ~ -4.4V电压，此电压可以送ADC去处理。</li>
+</ol>
+<ol>
+<li><p>点击察看原图<br>电流可以转换成电压，电压也可以转换成电流。图十就是这样一个电路。上图的负反馈没有通过电阻直 接反馈，而是串联了三极管Q1的发射结，大家可不要以为是一个比较器就是了。只要是放大电路，虚短虚断的规律仍然是符合的！<br>由虚断知，运放输入端没有电流流过，<br>则 (Vi – V1)/R2 = (V1 – V4)/R6 ……a<br>同理 (V3 – V2)/R5 = V2/R4 ……b<br>由虚短知 V1 = V2 ……c<br>如果R2=R6，R4=R5，则由abc式得V3-V4=Vi<br>上式说明R7两端的电压和输入电压Vi相等，则通过R7的电流I=Vi/R7，如果负载RL&lt;&lt;100KΩ，则通过Rl和通过R7的电流基本 相同。</p>
+</li>
+<li></li>
+</ol>
+<p>来一个复杂的，呵呵！图十一是一个三线制PT100前置放大电路。PT100传感器引出三根材质、线 径、长度完全相同的线，接法如图所示。有2V的电压加在由R14、R20、R15、Z1、PT100及其线电阻组成的桥电路上。Z1、Z2、Z3、 D11、D12、D83及各电容在电路中起滤波和保护作用，静态分析时可不予理会，Z1、Z2、Z3可视为短路，D11、D12、D83及各电容可视为开 路。由电阻分压知， V3=2<em>R20/(R14+20)=200/1100=2/11 ……a 由虚短知，U8B第6、7脚 电压和第5脚电压相等 V4=V3 ……b 由虚断知，U8A第2脚没有电流流过，则流过R18和R19上的电流相等。 (V2-V4)/R19=(V5-V2)/R18 ……c 由虚断知，U8A第3脚没有电流流过， V1=V7 ……d 在桥电路中R15和Z1、PT100及线电阻串联，PT100与线电阻串联分得的电压通过电阻R17加至U8A的第3脚， V7=2</em>(Rx+2R0)/(R15+Rx+2R0) …..e 由虚短知，U8A第3脚和第2脚电压相等， V1=V2 ……f 由abcdef得， (V5-V7)/100=(V7-V3)/2.2 化简得 V5=(102.2<em>V7-100V3)/2.2 即 V5=204.4(Rx+2R0)/(1000+Rx+2R0) – 200/11 ……g 上式输出电压V5是Rx的函数我们再看线电阻的影响。Pt100最下端线电阻上产生的电压降经过中间的线电阻、Z2、R22，加至U8C的第10脚，由虚 断知， V5=V8=V9=2</em>R0/(R15+Rx+2R0) ……a (V6-V10)/R25=V10/R26 ……b 由虚短知， V10=V5 ……c 由式abc得 V6=(102.2/2.2)V5=204.4R0/[2.2(1000+Rx+2R0)] ……h 由式gh组成的方程组知，如果测出V5、V6的值，就可算出Rx及R0，知道Rx，查pt100分度表就知道温度的大小了。</p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/模拟电路，硬件/" rel="tag">#模拟电路，硬件</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/01/23/问题 UCOSII在PC机上仿真，安装TASM5.0不成功/" rel="prev">问题 UCOSII在PC机上仿真，安装TASM5.0不成功</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/01/23/记录 我的技术博客，今天出生啦/" rel="next">记录 我的技术博客，今天出生啦</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div class="ds-thread" data-thread-key="2014/01/23/电路 运算烦恼歌大气虚短，虚断分析（转来的）/"
+                   data-title="电路 运算放大器虚短，虚断分析（转来的）" data-url="http://yoursite.com/2014/01/23/电路 运算烦恼歌大气虚短，虚断分析（转来的）/">
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="https://avatars2.githubusercontent.com/u/13464469?v=3&s=460" alt="CaptainJe" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">CaptainJe</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">Brave Shine</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">14</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">7</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/CaptainJe" target="_blank">Github</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy; &nbsp;  2013 - 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CaptainJe</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"captainje"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>
