@@ -1,0 +1,682 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+    <meta name="description" content="Brave Shine" />
+
+
+
+  <meta name="keywords" content="STM32,USB," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="https://avatars2.githubusercontent.com/u/13464469?v=3&s=460?v=0.4.5.1" />
+
+
+<meta name="description" content="半个月前开始搞USB HOST读U盘的固件，一开始也是什么都不懂，只是以前搞过cypress的USB芯片CY7C68013A，对USB协议有一点基础。
+
+为了搞好USB，首先阅读了圈圈的《圈圈教你玩USB》 这本书，书写的很详细，跟着他的思路走，能把USB协议的各个部分都接触到，即使硬件条件不同，但他的固件是自己一步一步写出来的，对USB的通信过程理解有很大帮助。
+
+然后就是熟悉stm32的USB">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MCU STM32f207 USB HOST读U盘终于有点眉目了，写写自己的学习过程和经验">
+<meta property="og:url" content="http://yoursite.com/2014/06/30/MCU STM32f207 USB HOST读U盘终于有点眉目了，写写自己的学习过程和经验/index.html">
+<meta property="og:site_name" content="CaptainJe's Blog">
+<meta property="og:description" content="半个月前开始搞USB HOST读U盘的固件，一开始也是什么都不懂，只是以前搞过cypress的USB芯片CY7C68013A，对USB协议有一点基础。
+
+为了搞好USB，首先阅读了圈圈的《圈圈教你玩USB》 这本书，书写的很详细，跟着他的思路走，能把USB协议的各个部分都接触到，即使硬件条件不同，但他的固件是自己一步一步写出来的，对USB的通信过程理解有很大帮助。
+
+然后就是熟悉stm32的USB">
+<meta property="og:updated_time" content="2015-12-08T04:58:08.134Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MCU STM32f207 USB HOST读U盘终于有点眉目了，写写自己的学习过程和经验">
+<meta name="twitter:description" content="半个月前开始搞USB HOST读U盘的固件，一开始也是什么都不懂，只是以前搞过cypress的USB芯片CY7C68013A，对USB协议有一点基础。
+
+为了搞好USB，首先阅读了圈圈的《圈圈教你玩USB》 这本书，书写的很详细，跟着他的思路走，能把USB协议的各个部分都接触到，即使硬件条件不同，但他的固件是自己一步一步写出来的，对USB的通信过程理解有很大帮助。
+
+然后就是熟悉stm32的USB">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'always'
+  };
+</script>
+
+  <title> MCU STM32f207 USB HOST读U盘终于有点眉目了，写写自己的学习过程和经验 | CaptainJe's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?4c23a7bd61e4639a1d732369a9c18096";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">CaptainJe's Blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              MCU STM32f207 USB HOST读U盘终于有点眉目了，写写自己的学习过程和经验
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2014-06-30T16:06:02+08:00" content="2014-06-30">
+            2014-06-30
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/MCU/" itemprop="url" rel="index">
+                  <span itemprop="name">MCU</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/2014/06/30/MCU STM32f207 USB HOST读U盘终于有点眉目了，写写自己的学习过程和经验/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2014/06/30/MCU STM32f207 USB HOST读U盘终于有点眉目了，写写自己的学习过程和经验/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>半个月前开始搞USB HOST读U盘的固件，一开始也是什么都不懂，<br>只是以前搞过cypress的USB芯片CY7C68013A，对USB协议有一点基础。</p>
+<ol>
+<li><p>为了搞好USB，首先阅读了圈圈的《圈圈教你玩USB》 这本书，书写的很详细，跟着他的思路走，<br>能把USB协议的各个部分都接触到，即使硬件条件不同，但他的固件是自己一步一步写出来的，对USB的通信过程理解有很大帮助。</p>
+</li>
+<li><p>然后就是熟悉stm32的USB 固件库，首先用DEVICE库的例子，自己修改，<br>由于当时只有stm32f103的硬件条件，做了一个使用内部FLASH空间的256K小U盘，这样对USB device的固件结构有了大概了解。</p>
+</li>
+<li><p>之后，了解FATFS的内容，将FATFS移植到stm32f103上，目的就是管理着256KB的FLASH空间，这样结合USB device的固件，就可以通过电脑修改文件，<br>然后通过串口发送命令，使用FATFS读或者写文件，观察效果。这样就熟悉了FATFS文件系统的使用和移植注意事项。</p>
+</li>
+<li><p>再下来就是官方的OTG_FS库了，这个库适用于包含OTG模块的f105,107和f2xx系列，这个库有一个说明文档pdf，读了一遍，只是知道一些概念，<br>具体的东西还是不知所谓。然后就打开固件库中的USB HOST读U盘的例子，从main函数和终端处理开始逐步分析USB HOST的数据通信过程，慢慢对照着USB协议，大概有了了解。</p>
+</li>
+<li><p>之后就是实际地把固件库的例子移植到stm32f207，我们的板子上现在是stm32f103，淘宝买了3块stm32f207的芯片<br>(想买5片的，领导只让买3片，话说公司连专门的电子实验室都没有，只有一个烙铁，一个风枪，我真担心自己焊工。不过还好，很顺利的就焊好了，看来前两年做硬件的确不是白做的啊）<br>207是不能直接替换掉103的，有几个管脚不一样，我用了几根飞线做的。</p>
+</li>
+<li><p>固件中，去掉官方那些为了适应不同开发板的繁琐定义，由于我没有负责板子的LCD驱动部分，所以没办法控制LCD。也就将例子中的LCD显示改成串口printf。<br>然后由于我用的是8M晶振，官方是24M，我就直接改了stm32f2xx.h中的宏定义，HSE_VALUE 8000000.<br>移植好了之后，发现插上U盘，枚举不成功，无法获取设备描述符。跟踪调试，最终还是觉得是底层硬件驱动的问题。<br>最有可能的，要么就是USB的配置，要么就是时钟。<br>后来想到刚开始接触stm32f2xx系列的时候，看过一个文档，是说stm32f1xx固件移植到stm32f2xx的，里面说stm32f2xx的时钟设置，有专门的工具。<br>从官网下载这个工具，配置时钟，用新生成的system_stm32f2xx.c文件代替原来的文件后，居然可以枚举成功了。。</p>
+</li>
+</ol>
+<p>可是能枚举，却不能读写文件啊，发送命令readcommand10之后移植返回  Unrecovered error state，<br>想要跟踪调试，但是固件库是官方提供的标准的东西啊，不可能需要我改啊，枚举成功了，说明底层通信没问题啊，莫非是数据传输端点设置问题，完全是跟官方的例子一样的，不会有错。<br>在网上查找资料，有人说1G的U盘可以，我找了一个1G的U盘，插上去，居然可以读了啊。<br>肯定是兼容性问题了，这个问题明天再来解决。<br>然后就是fatfs显示内容，有一些文件名不正常，小写字母变成了大写，网上说是因为没有支持长文件名。<br>之前已经做好了FATFS的长文件名支持版本，这次再修改下应该很容易。<br>串口输出数据如下：</p>
+<blockquote>
+<p>Device Attached<br>Full speed device detected<br>VID : 058Fh<br>PID : 6387h<br>Mass storage device connected<br>Manufacturer : Generic<br>Product : Mass Storage<br>Serial Number : 99027840<br>Enumeration completed<br>Exploring disk flash …<br>  |<strong>STM32.TXT<br>  |</strong>CREM<br>  |   |<strong>CREMFR~1.XLS<br>  |   |</strong>信息记录.TXT<br>  |__CREM中国<br>Write file….<br>‘CREM.TXT’ file created</p>
+</blockquote>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/STM32/" rel="tag">#STM32</a>
+          
+            <a href="/tags/USB/" rel="tag">#USB</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/07/09/MCU 函数的递归调用与FATFS中如何scanfile/" rel="prev">MCU 函数的递归调用与FATFS中如何scanfile</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/06/26/MCU STM32F20X系列的Vcap脚，用stm32f207zet6替代stm32f103zet6需要注意的地方/" rel="next">MCU STM32F20X系列的Vcap脚，用stm32f207zet6替代stm32f103zet6需要注意的地方</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div class="ds-thread" data-thread-key="2014/06/30/MCU STM32f207 USB HOST读U盘终于有点眉目了，写写自己的学习过程和经验/"
+                   data-title="MCU STM32f207 USB HOST读U盘终于有点眉目了，写写自己的学习过程和经验" data-url="http://yoursite.com/2014/06/30/MCU STM32f207 USB HOST读U盘终于有点眉目了，写写自己的学习过程和经验/">
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="https://avatars2.githubusercontent.com/u/13464469?v=3&s=460" alt="CaptainJe" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">CaptainJe</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">Brave Shine</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">35</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">28</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/CaptainJe" target="_blank">Github</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy; &nbsp;  2013 - 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CaptainJe</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"captainje"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>

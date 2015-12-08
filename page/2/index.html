@@ -184,8 +184,8 @@
           
           
             
-              <a class="post-title-link" href="/2014/06/23/MCU STM32_USBFS_Device固件库使用总结，用片内Flash作小U盘/" itemprop="url">
-                MCU STM32_USBFS_Device固件库使用总结，用片内Flash作小U盘
+              <a class="post-title-link" href="/2015/03/04/MCU FreeRTOS下的串口编程/" itemprop="url">
+                MCU FreeRTOS下的串口编程
               </a>
             
           
@@ -195,8 +195,8 @@
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2014-06-23T09:17:07+08:00" content="2014-06-23">
-            2014-06-23
+          <time itemprop="dateCreated" datetime="2015-03-04T10:12:06+08:00" content="2015-03-04">
+            2015-03-04
           </time>
         </span>
 
@@ -221,8 +221,8 @@
           
             <span class="post-comments-count">
               &nbsp; | &nbsp;
-              <a href="/2014/06/23/MCU STM32_USBFS_Device固件库使用总结，用片内Flash作小U盘/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2014/06/23/MCU STM32_USBFS_Device固件库使用总结，用片内Flash作小U盘/" itemprop="commentsCount"></span>
+              <a href="/2015/03/04/MCU FreeRTOS下的串口编程/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/04/MCU FreeRTOS下的串口编程/" itemprop="commentsCount"></span>
               </a>
             </span>
           
@@ -239,14 +239,12 @@
         
           <span itemprop="articleBody">
             
-            简介为了熟悉USB协议，熟悉stm32 usb固件库的结构和使用方法，决定用它做一个u盘，正点原子开发板上面有例子把sd卡和spi flash作为存储器的u盘，参考这些例子和网上的资料，用内部flash作为存储空间，做了一个小u盘。
-stm32内部flash大小为512kbytes，以页为单位，每页2kbytes，256页，起始地址为0800 0000，程序要占用200多kbytes的空间，所以把最后的256kbytes作为u盘的存储空间，地址为0803 fc00到结束地址。
-固件库移植正点原子例子上面用的usb固件库是2.2版本的，我使用的是最新4.0版本，首先要做的就是先搞好4.0版本的移植。根据网上资料，官方固件库里的例子，USB固件库的核心协议包括core,init,int,regs,sil,mem这6个C文件，这些文件完成了USB枚举，标准请求的路由等功能，可以说给USB通信搭建了基础，其它具体的子类协议应用都是在这个基础上搭建起来的。这6个文件不用修改，直接包含到工程中。
-使用固件库做mass storage device协议，参考官方固件库里面的例子，需要用到mass_m
+            描述刚接触FreeRTOS的时候，就对串口在FreeRTOS下如何应用的问题比较困惑，现在完成了一个小项目，也有点心得，在这里记录一下使用方式，方便日后参考：
+代码串口中断：1234567891011121314151617181920212223242526272829303132333435363738void USART1_IRQHandler(void)    //User debug&#123;  portBASE_TYPE usart1_Que_Woken=pdFALSE;	if(USART_GetITStatus(USART1,USART_IT_TXE)!=RESET)	&#123;		//USART_ClearITPendingBit(USART1,USART_IT_TXE);		if( xQueueReceiveFromISR( L0_TxQue, &amp;DTS, &amp;usart1_Que_Woken ) == pdTRUE )		&#123;			/* A character was retrieved from the queue so can be s
             ...
           </span>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2014/06/23/MCU STM32_USBFS_Device固件库使用总结，用片内Flash作小U盘/#more" rel="contents">
+            <a class="btn" href="/2015/03/04/MCU FreeRTOS下的串口编程/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -279,8 +277,8 @@ stm32内部flash大小为512kbytes，以页为单位，每页2kbytes，256页，
           
           
             
-              <a class="post-title-link" href="/2014/06/13/MCU STM32F103一些需要注意的细节/" itemprop="url">
-                MCU STM32F103一些需要注意的细节
+              <a class="post-title-link" href="/2014/10/23/记录 明年要有自己的小工作室/" itemprop="url">
+                记录 明年要有自己的小工作室
               </a>
             
           
@@ -290,8 +288,105 @@ stm32内部flash大小为512kbytes，以页为单位，每页2kbytes，256页，
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2014-06-13T11:31:14+08:00" content="2014-06-13">
-            2014-06-13
+          <time itemprop="dateCreated" datetime="2014-10-23T08:53:53+08:00" content="2014-10-23">
+            2014-10-23
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/记录/" itemprop="url" rel="index">
+                  <span itemprop="name">记录</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/2014/10/23/记录 明年要有自己的小工作室/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2014/10/23/记录 明年要有自己的小工作室/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+            到现在工作了一年多，硬件上基本的模拟电路，数字电路懂，也画过4层的PCB。软件上，常见MCU的固件基本都能写，正在研究stm32f4系列配合一些嵌入式系统，GUI，等高级一点的应用。
+今年GCT过了以后，就开始考虑接外包，搬家以后自己制备点东西，成立自己的小工作室，一方面在公司把固件这块都做熟了，研究好GUI,UCOS，等，再搞搞USB,无线。另一方面跟公司做上位机软件的小伙伴把C++也做到可以写一般软件的地步，再入门LINUX。
+下班后，就忙在自己的工作室里，寻找外包项目做。想想都觉得只要GCT过了，生活就会很美好的样子。
+（现在搬家博客中，距离这篇日志已经1年多了，我的确通过利用下班时间努力看书，成功进入复旦大学计算机系读工程硕士，也按照计划，接了一个蓝牙盾的外包，虽然经历了那么多难题，跟合作方相处很愉快，项目也到了尾声，收获了很多。 
+然而，我并没有觉得生活像当初写这篇日志想象的那样美好。我给自己的目标变了，我看到自己没钱买房子，看到父母舍不得买贵一点的衣服，我总是想要得到更好的东西，有更大的成就；
+我真的不知道这样是好是坏，好的方面来讲，正是因为不满足现状会让我更加努力，更有动
+            ...
+          </span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014/10/23/记录 明年要有自己的小工作室/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/2014/10/08/MCU STM32F429+SDRAM+STEMWIN/" itemprop="url">
+                MCU STM32F429+SDRAM+STEMWIN
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2014-10-08T11:08:05+08:00" content="2014-10-08">
+            2014-10-08
           </time>
         </span>
 
@@ -316,8 +411,8 @@ stm32内部flash大小为512kbytes，以页为单位，每页2kbytes，256页，
           
             <span class="post-comments-count">
               &nbsp; | &nbsp;
-              <a href="/2014/06/13/MCU STM32F103一些需要注意的细节/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2014/06/13/MCU STM32F103一些需要注意的细节/" itemprop="commentsCount"></span>
+              <a href="/2014/10/08/MCU STM32F429+SDRAM+STEMWIN/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2014/10/08/MCU STM32F429+SDRAM+STEMWIN/" itemprop="commentsCount"></span>
               </a>
             </span>
           
@@ -334,12 +429,19 @@ stm32内部flash大小为512kbytes，以页为单位，每页2kbytes，256页，
         
           <span itemprop="articleBody">
             
-            注意JTAG引脚，这些脚默认都是不受控制的，要使用必须关闭JTAG，比如我要用SPI3，一直不成功，发现SCK没有正确输出信号，原来是JTAG脚，后来查手册才知道要用JTAG脚做别的功能必须先关闭JTAG。103固件库函数如下：先使能AFIO时钟，然后调用GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable, ENABLE);关了JTAG，SPI3就可以正常使用了。
-固件导致 芯片锁死 无法再编程或者调试：我用timer中断和ADC+DMA的时候，程序运行时OK的，但是只要烧录了这个固件，就没办法再烧程序了，必须将BOOT0设置为高电平，从系统存储器启动，才能再烧程序。查了很多资料，其中有用的是；STM32单片机一般的连接方式是主闪存存储器启动模式，即BOOT0为0，这样在用JTAG或SW写进程序的时候，如果该程序工程中芯片选型不正确或着程序中复用了JTAG或SW复用引脚导致程序执行后出现启动配置错误或者调试引脚被占用而引起的芯片锁死或Jlnk连接不上的问题，则把BOOT0和BOOT1跳成1和0，让内部程序不运行，然后再重新下载另外的程序，再改回
-            ...
+            要用STM32F429+SDRAM的方式驱动一块7寸工业LCD屏，移植UCGUI图形界面库来做界面开发
+按照官方说明，做了所有的移植步骤，但是屏幕仍旧什么也不显示，所有操作无用，后来看了这篇帖子，帮助很大；
+http://bbs.armfly.com/read.php?tid=4550&amp;ds=1&amp;page=e#a
+我的主要问题在于：
+
+ 关于层的问题。因为默认是1层的。如果要改为2层的。特别注意要先选定层1。要不然什么都不显示。 GUI_SelectLayer(1); 根据DATASHEET.层2是在最上面的。它的尺寸如果和屏幕一样的。  那层1和背景都会被它覆盖。这里说的是LTDC的层。  所以要选择层2绘制。（GUI里面 0- 层1 ，1- 层2）。
+
+没有选择第二层，那么所有操作都在默认的第1层，第二层覆盖在他上面，那么所有的操作都不会有用啊。
+
+            
           </span>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2014/06/13/MCU STM32F103一些需要注意的细节/#more" rel="contents">
+            <a class="btn" href="/2014/10/08/MCU STM32F429+SDRAM+STEMWIN/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -372,8 +474,8 @@ stm32内部flash大小为512kbytes，以页为单位，每页2kbytes，256页，
           
           
             
-              <a class="post-title-link" href="/2014/06/04/记录 新工作，新目标/" itemprop="url">
-                记录 新工作，新计划
+              <a class="post-title-link" href="/2014/09/23/硬件 Microusb接口与OTG/" itemprop="url">
+                硬件 Microusb接口与OTG
               </a>
             
           
@@ -383,211 +485,8 @@ stm32内部flash大小为512kbytes，以页为单位，每页2kbytes，256页，
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2014-06-04T13:21:02+08:00" content="2014-06-04">
-            2014-06-04
-          </time>
-        </span>
-
-        
-          <span class="post-category" >
-            &nbsp; | &nbsp; 分类于
-            
-              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/记录/" itemprop="url" rel="index">
-                  <span itemprop="name">记录</span>
-                </a>
-              </span>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-              &nbsp; | &nbsp;
-              <a href="/2014/06/04/记录 新工作，新目标/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2014/06/04/记录 新工作，新目标/" itemprop="commentsCount"></span>
-              </a>
-            </span>
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-            去年在上家公司做了很多东西，自己也长进了很多，今年5月份换了新工作，上班半个多月，感觉不错。跳槽期间，苦恼很多，感触很多，现在安定下来，写点东西记录下感受。
-总结下在小公司工作的优缺点：小公司优点：
-
-人少，所以你不是一个螺丝钉，你要做的事情很多，对于刚毕业的来说，不必担心学不到东西。
-人少，所以老板就坐在你后面，和你一起工作，一起吃饭，偶尔能像一个朋友。从好的老板身上可以学到很多，他能自己创办公司，领导这么多人白手起家做起来，已经超越一般人很多了。
-人少， 所以基本上每个人都认识，大部分都是朋友，如果看重中公司前景，以后公司发展好了，跟随公司一起成长起来的你，应该会有不错的位置和待遇。额，暂时能想到的就这么多了。
-
-小公司缺点： 
-
-加班没工资，工资低，福利待遇差这些就不多说了，因为小公司，活着都是个问题，当然处处节省，除了那些发展特别好的公司。 
-人少，技术上的东西积累少，可能没人带你，很多东西你自己摸索一个星期，上网找资料，各种郁闷，如果有牛人指导，或者有资料，可能2，3天就做出来了。
-很多时候，你费尽心思，绞尽脑汁做出来的东西，自以为很不错了，可实际上在别人眼里都是很简单的东西
-            ...
-          </span>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014/06/04/记录 新工作，新目标/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2014/01/24/驱动 SPI通信时序与LCD5110,12864,TFT液晶驱动/" itemprop="url">
-                驱动 SPI通信时序与LCD5110,12864,TFT液晶驱动
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2014-01-24T18:29:29+08:00" content="2014-01-24">
-            2014-01-24
-          </time>
-        </span>
-
-        
-          <span class="post-category" >
-            &nbsp; | &nbsp; 分类于
-            
-              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/驱动/" itemprop="url" rel="index">
-                  <span itemprop="name">驱动</span>
-                </a>
-              </span>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-              &nbsp; | &nbsp;
-              <a href="/2014/01/24/驱动 SPI通信时序与LCD5110,12864,TFT液晶驱动/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2014/01/24/驱动 SPI通信时序与LCD5110,12864,TFT液晶驱动/" itemprop="commentsCount"></span>
-              </a>
-            </span>
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-            还是老样子不写网上可以搜索到的基础知识，写比较关键的实际应用比较实用的东西。本篇文章中说到的所有东西都是对Cypress  PSOC1芯片基础上实现SPI液晶驱动的总结。
-SPI通讯时序几个模式的区别开始的时候总是对SPI通信时序的Mode 0,1,2,3分不清楚。
-
-CPOL：时钟极性，CPOL=0：空闲时SCK为低电平，第一个SCK脉冲由上升沿开始CPOL=1：空闲时SCK为高电平，第一个SCK脉冲由下降沿开始
-
-CPHA：时钟相位，CPHA=0：第一个跳变沿采集数据，也就是说未开始之前，第一个数据已经准备好，第一个跳变沿就直接开始采集CPHA=1：第二个跳变沿采集数据，也就是说未开始之前，第一个数据可以没准备，可以在第一个SCK跳变沿准备，第二个采集
-
-
-例子举个实际例子，就是液晶屏SPI通信时的一段最基本的通信代码，使用IO引脚软件模拟SPI时序：123456789101112for(i = 0; i&lt;8; i++)	//8位数据, 先高后低	&#123;		if(wbyte &amp; 0x80) &#123;LCD_DIN_HIGH;&#125;		else			 &
-            ...
-          </span>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014/01/24/驱动 SPI通信时序与LCD5110,12864,TFT液晶驱动/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2014/01/24/硬件 MOSFET选型与并联/" itemprop="url">
-                硬件 MOSFET选型与并联
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2014-01-24T17:18:45+08:00" content="2014-01-24">
-            2014-01-24
+          <time itemprop="dateCreated" datetime="2014-09-23T16:20:11+08:00" content="2014-09-23">
+            2014-09-23
           </time>
         </span>
 
@@ -612,8 +511,8 @@ CPHA：时钟相位，CPHA=0：第一个跳变沿采集数据，也就是说未�
           
             <span class="post-comments-count">
               &nbsp; | &nbsp;
-              <a href="/2014/01/24/硬件 MOSFET选型与并联/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2014/01/24/硬件 MOSFET选型与并联/" itemprop="commentsCount"></span>
+              <a href="/2014/09/23/硬件 Microusb接口与OTG/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2014/09/23/硬件 Microusb接口与OTG/" itemprop="commentsCount"></span>
               </a>
             </span>
           
@@ -630,13 +529,24 @@ CPHA：时钟相位，CPHA=0：第一个跳变沿采集数据，也就是说未�
         
           <span itemprop="articleBody">
             
-            看MOS管datasheet上的参数的时候，特别优越，最大电流都是几十A，最大电压几百V，但是实际用来，其实比数据手册上的标称值差远了。很困惑，百度上这个答案很好，贴出来分享下：
+            首先，
 
-呵呵，首先要肯定你看得确实比较仔细。我来回答一下吧：这份文件是生产商制作的，当然里面的数据也是真实的，不过问题是，他们的实验条件是保密的。从我和我同事的研究感觉，这个参数是在极其优越的条件下完成的，测出的60A这种也是最乐观条件下的参数（至于为什么这么做，就更简单了，你肯定听说过广告吧，任何一个广告总是宣传自己最有优势的方面，至于其他数据就不可透露了），估计要在恒温，强力散热的条件下实现。现实中，这个条件一般人员根本不可能做到，这也就意味着这些参数我们只能参考，有无经验的工程师差别在于分析这些参数的可信度，也就是在现有的条件下，大概能做到标示参数的几分之一或者十几分之一，二十几分之一。一般来说，以常规散热条件（足够大的散热片+必要的风扇），能做到1/10就很不错了。追问 我有一个同步整流的设计要在50A的电流下持续工作，即使有散热片+风扇，因为有热阻的存在，我担心在大电流下，因为管脚发热，且热量不会与散热片
+Micro AB，ID线悬空，有公母，仅OTG设备使用      
+Micro A ID线接地只有公      
+Micro B ID线悬空 有公母
+
+比如我的中兴U950手机支持OTG功能
+
+我的手机电脑连接线，确实是 Micro B公转标准A公 ，id线不连GND   这样手机线插在电脑上，手机检测ID还是悬空的，手机就知道自己是Device
+我手上的OTG线，其实是MicroA公转标准A母，id线连接GND   这样手机连接U盘后，检测到ID位低，就开始OTG的HNP对话确定自己是主机
+
+但是线上面的标注不一定是指型号，比如我这个MicroA的转接线接头上有一个B字。现在淘宝上的东西应该是没有明确区分Micro A,B所以搜不出来。 
+项目上要用到OTG功能，使我的设备可以读取U盘文件，同时也可以插在PC上当做一个外设来使用那么就跟手机一样，插电脑的线用普通的手机电脑连接线 MicroB 公转标准A公插U盘的线用手机OTG线，也就是MicroA 公转标准A母
+一开始搜MicroA的插头，转接线等等，淘宝，百度都搜不到，资料上也说的不清不楚，到底ID线和主从机的关系如何确
             ...
           </span>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2014/01/24/硬件 MOSFET选型与并联/#more" rel="contents">
+            <a class="btn" href="/2014/09/23/硬件 Microusb接口与OTG/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -669,8 +579,8 @@ CPHA：时钟相位，CPHA=0：第一个跳变沿采集数据，也就是说未�
           
           
             
-              <a class="post-title-link" href="/2014/01/24/硬件 MOSFET驱动电路和PWM功率控制/" itemprop="url">
-                硬件 MOSFET驱动电路和PWM功率控制
+              <a class="post-title-link" href="/2014/09/02/C++ VS2010+WDK 做好USB view的环境搭建/" itemprop="url">
+                C++ VS2010+WDK 做好USB view的环境搭建
               </a>
             
           
@@ -680,8 +590,8 @@ CPHA：时钟相位，CPHA=0：第一个跳变沿采集数据，也就是说未�
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2014-01-24T16:58:27+08:00" content="2014-01-24">
-            2014-01-24
+          <time itemprop="dateCreated" datetime="2014-09-02T12:06:53+08:00" content="2014-09-02">
+            2014-09-02
           </time>
         </span>
 
@@ -690,8 +600,8 @@ CPHA：时钟相位，CPHA=0：第一个跳变沿采集数据，也就是说未�
             &nbsp; | &nbsp; 分类于
             
               <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/硬件/" itemprop="url" rel="index">
-                  <span itemprop="name">硬件</span>
+                <a href="/categories/C/" itemprop="url" rel="index">
+                  <span itemprop="name">C++</span>
                 </a>
               </span>
 
@@ -706,8 +616,8 @@ CPHA：时钟相位，CPHA=0：第一个跳变沿采集数据，也就是说未�
           
             <span class="post-comments-count">
               &nbsp; | &nbsp;
-              <a href="/2014/01/24/硬件 MOSFET驱动电路和PWM功率控制/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2014/01/24/硬件 MOSFET驱动电路和PWM功率控制/" itemprop="commentsCount"></span>
+              <a href="/2014/09/02/C++ VS2010+WDK 做好USB view的环境搭建/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2014/09/02/C++ VS2010+WDK 做好USB view的环境搭建/" itemprop="commentsCount"></span>
               </a>
             </span>
           
@@ -724,18 +634,19 @@ CPHA：时钟相位，CPHA=0：第一个跳变沿采集数据，也就是说未�
         
           <span itemprop="articleBody">
             
-            MOS管驱动电路由于MOSFET的结电容 密勒效应，导致它的开通和关断过程并不是直接完成的，百度密勒效应可以查到。为了给G极结电容快速充电，就要求G级电流尽可能大，经过验证，使用推挽输出电路，可以很好地减少MOSFET开通和关断所用的时间，是驱动MOSFET十分不错 的选择。MOS管的G极相当于一个电容，接高电平的时候有个充电过程，充电让G极达到完全导通电压后，MOS管完全导通。
+            描述公司要做USB KEY相关的东西，上位机软件需要读取U盘的 VID,PID,Serial number。之前在网上下载了一个VC++6.0做的 控制台程序源码，测试可行，自己改动之后，做出了一个小程序，问题是，这个程序在某些电脑上无法正常读出U盘信息,在某些电脑上却可以。可能是VC++6.0 对WIN7 的兼容性不太好。于是决定转战VS2010+WDK，做一些简单的USB驱动的东西。MSDN的USB VIEW源码是很不错的参考资料。
+##　环境搭建
 
-普通电路驱动MOSFET：
-即将更新配图 MOSFET驱动电路与PWM功率控制 - fine_young - fine_young的博客当PWM信号是高电平时，Q3导通，MOS管G极接地，没有电压，MOS关断。这时候，电阻R18/R39不能取的太小，否则通过Q3的电流太大会烧坏三极管。当pwm信号低电平的时候，Q3不导通，MOS管G极接12V，MOS管开通。这时候又希望R18尽量小，让G极充电电流尽量大，从而保证MOS管快速开通。
+首先VS2010安装，WDK安装，按照步骤进行，之后打开USB view工程（CSDN上下载来的VS2010版本），编译之后，一步一步出现了很多问题，下面逐个解决：
 
 
-推挽电路驱动MOSFET：
-即将更新配图 MOSFET驱动电路与PWM功率控制 - fine_young - fine_young的博客PWM信号高电平，Q7导通，Q1关断，
+error RC2247 : SYMBOL name too long：
+
+你好，我在2010里面也遇到了error RC2247 : SYMBOL name too long ，我是这么解决的把#define APSTUDIO_HIDDEN_SYMBOLS，，复制到C:/Program Files/Microsoft SDKs/Windows/v7.0A/Inclu
             ...
           </span>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2014/01/24/硬件 MOSFET驱动电路和PWM功率控制/#more" rel="contents">
+            <a class="btn" href="/2014/09/02/C++ VS2010+WDK 做好USB view的环境搭建/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -768,8 +679,8 @@ CPHA：时钟相位，CPHA=0：第一个跳变沿采集数据，也就是说未�
           
           
             
-              <a class="post-title-link" href="/2014/01/24/记录 恼人的周一，开始工作，这周的目标是开始变得专业一点/" itemprop="url">
-                记录 恼人的周一，开始工作，这周的目标是开始变得专业一点
+              <a class="post-title-link" href="/2014/07/18/MCU STM32f207 ADC+DMA多通道采集，ADC数据大于4096/" itemprop="url">
+                MCU STM32f207 ADC+DMA多通道采集，ADC数据大于4096
               </a>
             
           
@@ -779,8 +690,8 @@ CPHA：时钟相位，CPHA=0：第一个跳变沿采集数据，也就是说未�
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2014-01-24T16:28:45+08:00" content="2014-01-24">
-            2014-01-24
+          <time itemprop="dateCreated" datetime="2014-07-18T15:33:42+08:00" content="2014-07-18">
+            2014-07-18
           </time>
         </span>
 
@@ -789,8 +700,8 @@ CPHA：时钟相位，CPHA=0：第一个跳变沿采集数据，也就是说未�
             &nbsp; | &nbsp; 分类于
             
               <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/记录/" itemprop="url" rel="index">
-                  <span itemprop="name">记录</span>
+                <a href="/categories/MCU/" itemprop="url" rel="index">
+                  <span itemprop="name">MCU</span>
                 </a>
               </span>
 
@@ -805,8 +716,8 @@ CPHA：时钟相位，CPHA=0：第一个跳变沿采集数据，也就是说未�
           
             <span class="post-comments-count">
               &nbsp; | &nbsp;
-              <a href="/2014/01/24/记录 恼人的周一，开始工作，这周的目标是开始变得专业一点/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2014/01/24/记录 恼人的周一，开始工作，这周的目标是开始变得专业一点/" itemprop="commentsCount"></span>
+              <a href="/2014/07/18/MCU STM32f207 ADC+DMA多通道采集，ADC数据大于4096/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2014/07/18/MCU STM32f207 ADC+DMA多通道采集，ADC数据大于4096/" itemprop="commentsCount"></span>
               </a>
             </span>
           
@@ -823,19 +734,12 @@ CPHA：时钟相位，CPHA=0：第一个跳变沿采集数据，也就是说未�
         
           <span itemprop="articleBody">
             
-            ##　工作安排：
-
-NIR1700，PG2按照格式写好资料
-PG2的板子，生产部有空帮忙焊接好后，调试
-ARM改版，具体与领导协商
-
-＃＃　自己学习：1.　FPGA：做完所有例子，弄懂Verilog中几个语句，和FPGA设计中的并行，模块等等关系2.　嵌入式系统：UCOSII  继续看邵贝贝的书。看完后，一句一句分析源代码
-这周的目标是Beat Back：学会保护自己，别人说自己不好的，自己不喜欢的，不要不说话，该说回去的就果断  保护自己，虽然自己只想做好技术，将来靠技术吃饭，但是也不能让别人觉得自己好欺负，想说自己什么说什么。(哈哈，整理的时候看到这个，觉得自己当时初出茅庐，好幼稚，不过以前经历过的一切都是以后的财富，我仍旧怀念那年每天加班到9点以后的时光和那些让我长大的人)
-
-            
+            这周做stm32f207的ADC时，发现ADC采集到的原始数据可以超过4096，有的已经65000了。stm32的ADC只有12位，最大4095，怎么可能超过4096呢。肯定是数据错位的问题了，我在ADC的初始化程序中，设定其数据对齐模式为右对齐，应该没问题的啊，百思得得其解，开始仿真，发现，ADC_InitStructure中的某些数完全是错误的，我仿真观察变量ADC_InitStructure.ExternalTrigconv ,一建立结构体，这个成员的值就变成了0x08007A47，最后赋值给CR2的时候，第11位也就是数据对其位 就是1 了，左对齐。。。为什么会这样呢，我特意在初始化中将ADC_InitStructure.ExternalTrigconv=ExternalTrigconv_none.也就是将他赋值为0，然而即使程序已经执行过这条语句，这个成员变量的值仍然是0x08007A47，太奇怪了，可能是固件库的bug，08007A47看起来倒像是flash地址了。
+忽然想起有一个ADC_DInit（）和Structure_Init（），这两个函数能将ADC配置为RESET
+            ...
           </span>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2014/01/24/记录 恼人的周一，开始工作，这周的目标是开始变得专业一点/#more" rel="contents">
+            <a class="btn" href="/2014/07/18/MCU STM32f207 ADC+DMA多通道采集，ADC数据大于4096/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -868,8 +772,8 @@ ARM改版，具体与领导协商
           
           
             
-              <a class="post-title-link" href="/2014/01/24/记录 半月工作总结/" itemprop="url">
-                记录 半月工作总结
+              <a class="post-title-link" href="/2014/07/14/MCU PIC16F689 的编译器 和 编译错误处理/" itemprop="url">
+                MCU PIC16F689 的编译器 和 编译错误处理
               </a>
             
           
@@ -879,8 +783,8 @@ ARM改版，具体与领导协商
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2014-01-24T16:28:45+08:00" content="2014-01-24">
-            2014-01-24
+          <time itemprop="dateCreated" datetime="2014-07-14T16:47:59+08:00" content="2014-07-14">
+            2014-07-14
           </time>
         </span>
 
@@ -889,8 +793,8 @@ ARM改版，具体与领导协商
             &nbsp; | &nbsp; 分类于
             
               <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/记录/" itemprop="url" rel="index">
-                  <span itemprop="name">记录</span>
+                <a href="/categories/MCU/" itemprop="url" rel="index">
+                  <span itemprop="name">MCU</span>
                 </a>
               </span>
 
@@ -905,8 +809,8 @@ ARM改版，具体与领导协商
           
             <span class="post-comments-count">
               &nbsp; | &nbsp;
-              <a href="/2014/01/24/记录 半月工作总结/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2014/01/24/记录 半月工作总结/" itemprop="commentsCount"></span>
+              <a href="/2014/07/14/MCU PIC16F689 的编译器 和 编译错误处理/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2014/07/14/MCU PIC16F689 的编译器 和 编译错误处理/" itemprop="commentsCount"></span>
               </a>
             </span>
           
@@ -923,29 +827,19 @@ ARM改版，具体与领导协商
         
           <span itemprop="articleBody">
             
-            来到新公司快一个月了，整体感觉不错，气氛轻松，工作愉快，同事间大家都做好自己的事情，没有遇到烦人的小事，觉得未来3年内在这里工作不错，可以安心钻研技术。
-第一个星期主要是熟悉环境和搭建开发环境，第二周开始写了zengo板子的外设驱动固件，第三周继续写驱动，这周写完了驱动，又用三天时间做了一款PIC主控芯片的咖啡及的固件升级。现在在看USB的东西。
-zengo板外设驱动的编写与调试，主要外设有：
+            简述公司让改一个PIC16F589的固件，增加一些功能模式的选择等，难的不在于怎么改这些东西，这些东西只要读读程序，理解下原来的构架思路，很容易写出来。难的地方在编译器和开发环境。之前也搞过PIC18F4520的事情，对PIC单片机编译环境的复杂难用深有感触。现在要搞这个PIC16F的单片机，配置环境花了一天时间，主要是一开始给我的源程序就是错误的版本，后来找到问题所在，拿到了正确的源程序，又下载到了2个月试用期的HI tech PICC编译器pro版本，才能够基本上编译。编译器版本是：
 
-GPIO控制的蜂鸣器
-GPIO控制的红外接收头HS0038
-GPIO检测外部输入电平
-FSMC驱动LCD（Ray已完成）
-IIC通信控制EEPORM芯片AT24C512
-SPI通信控制的FLASH芯片W25X16
-SPI通信控制的8路开关芯片MC33879
-USB作为主机读取外接U盘数据
-10路ADC采集
-12路PWM输出
-700Hz脉冲信号PULSE
-以太网
+MAPLAB IDE v8.86 and  the compiler is :HI-TECH C Compiler for PIC10/12/16 MCUs (PRO Mode)  V9.81
+Copyright (C) 2010 Microchip Technology Inc.
+Licensed for evaluation purposes only.
+This license will expire on Thu, 31 Jul 2014.
 
-目前除了USB和以太网的事情，其他的基本外设都搞好了，所以目前主要工作就是搞USB OTG 和FATFS文件系统。再就是TCP/IP。
-PIC主控器的固件升级，主要是增加按键功能设置，增加了LOCK操作模式和UNLOCK操作模式，以及
+可能由于版本原因出现了一些编译错误，记录如下：
+
             ...
           </span>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2014/01/24/记录 半月工作总结/#more" rel="contents">
+            <a class="btn" href="/2014/07/14/MCU PIC16F689 的编译器 和 编译错误处理/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -978,8 +872,8 @@ PIC主控器的固件升级，主要是增加按键功能设置，增加了LOCK�
           
           
             
-              <a class="post-title-link" href="/2014/01/24/硬件 MOSFET应用要点/" itemprop="url">
-                硬件 MOSFET应用要点
+              <a class="post-title-link" href="/2014/07/09/MCU 函数的递归调用与FATFS中如何scanfile/" itemprop="url">
+                MCU 函数的递归调用与FATFS中如何scanfile
               </a>
             
           
@@ -989,8 +883,8 @@ PIC主控器的固件升级，主要是增加按键功能设置，增加了LOCK�
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2014-01-24T16:28:45+08:00" content="2014-01-24">
-            2014-01-24
+          <time itemprop="dateCreated" datetime="2014-07-09T09:20:16+08:00" content="2014-07-09">
+            2014-07-09
           </time>
         </span>
 
@@ -999,8 +893,8 @@ PIC主控器的固件升级，主要是增加按键功能设置，增加了LOCK�
             &nbsp; | &nbsp; 分类于
             
               <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/硬件/" itemprop="url" rel="index">
-                  <span itemprop="name">硬件</span>
+                <a href="/categories/MCU/" itemprop="url" rel="index">
+                  <span itemprop="name">MCU</span>
                 </a>
               </span>
 
@@ -1015,8 +909,8 @@ PIC主控器的固件升级，主要是增加按键功能设置，增加了LOCK�
           
             <span class="post-comments-count">
               &nbsp; | &nbsp;
-              <a href="/2014/01/24/硬件 MOSFET应用要点/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2014/01/24/硬件 MOSFET应用要点/" itemprop="commentsCount"></span>
+              <a href="/2014/07/09/MCU 函数的递归调用与FATFS中如何scanfile/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2014/07/09/MCU 函数的递归调用与FATFS中如何scanfile/" itemprop="commentsCount"></span>
               </a>
             </span>
           
@@ -1033,22 +927,24 @@ PIC主控器的固件升级，主要是增加按键功能设置，增加了LOCK�
         
           <span itemprop="articleBody">
             
-            MOSFET的基础知识就不写了，我的博客里面不想写那些通过百度或者查找一些书籍可以了解的基础东西，只写一些重要的，与实际应用相关的东西，希望自己经历过的事情可以对别人有帮助。
-简介MOS管是金属氧化物半导体场效应晶体管，英文缩写MOSFET(Metal Oxide Semiconductor Field Effect Transistor)。本文以下介绍基于N沟道增强型MOS管，采用的曲线参数等取自IRF520N功率MOSFET的数据手册。MOS管有三个极分别是漏极D，栅极G,源极S，N沟道增强型MOS管工作原理是通过控制栅源之间的电压Vgs来控制漏极D到源极S之间的导电沟道宽度，从而控制漏极电流Id。
-MOS管的特性曲线和工作区间 MOS管的特性曲线包括Id-Vds关系曲线，和Id-Vgs关系曲线。    
+            一些函数调用的细节问题：调用前
+一个函数的运行期间调用另一个函数时，在运行被调用函数之前，系统需要完成3件事情：
 
-Id-Vds关系曲线如下图所示：
+将所有的实参、返回地址等信息传递给被调用函数保存；
+为被调用函数的局部变量分配存储区；
+将控制转移到被调函数的入口。调用中
 
+而从被调用函数返回调用函数之前，系统也应完成3件工作：
 
-配图即将添加：MOSFET使用要点 - fine_young - fine_young的博客
+保存被调函数的计算结果；
+释放被调函数的数据区；
+依照被调函数保存的返回地址将控制转移到调用函数。当有多个函数构成嵌套调用时，按照后调用先返回的原则。
 
-  图1.Id-Vds关系曲线
-
-截止区：每个MOS管都有一个开启电压Vt，当Vgs&lt;Vt的时候，无论Vds多大都不会有电流流过MOS管，
+也就是说，在调用一个函数之前，都会为被调用函数的局部变量分配存储区。看一下FATFS文件系统中如何做一个能扫两级文件夹的文件扫描。源代码如下：1234567891011121314151617181920212223242526272829303132333435363738394041424344u8 mf_scan_files(char * path,u8 recu_level)&#123;	u8 res;FILINFO fileinfo;		DIR dir;    char *fn;   /* This function is ass
             ...
           </span>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2014/01/24/硬件 MOSFET应用要点/#more" rel="contents">
+            <a class="btn" href="/2014/07/09/MCU 函数的递归调用与FATFS中如何scanfile/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1081,8 +977,8 @@ Id-Vds关系曲线如下图所示：
           
           
             
-              <a class="post-title-link" href="/2014/01/24/技术 Cypress的Capsense触摸按键与滑条/" itemprop="url">
-                技术 Cypress的Capsense触摸按键与滑条
+              <a class="post-title-link" href="/2014/06/30/MCU STM32f207 USB HOST读U盘终于有点眉目了，写写自己的学习过程和经验/" itemprop="url">
+                MCU STM32f207 USB HOST读U盘终于有点眉目了，写写自己的学习过程和经验
               </a>
             
           
@@ -1092,8 +988,8 @@ Id-Vds关系曲线如下图所示：
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2014-01-24T15:41:15+08:00" content="2014-01-24">
-            2014-01-24
+          <time itemprop="dateCreated" datetime="2014-06-30T16:06:02+08:00" content="2014-06-30">
+            2014-06-30
           </time>
         </span>
 
@@ -1102,8 +998,8 @@ Id-Vds关系曲线如下图所示：
             &nbsp; | &nbsp; 分类于
             
               <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/技术/" itemprop="url" rel="index">
-                  <span itemprop="name">技术</span>
+                <a href="/categories/MCU/" itemprop="url" rel="index">
+                  <span itemprop="name">MCU</span>
                 </a>
               </span>
 
@@ -1118,8 +1014,8 @@ Id-Vds关系曲线如下图所示：
           
             <span class="post-comments-count">
               &nbsp; | &nbsp;
-              <a href="/2014/01/24/技术 Cypress的Capsense触摸按键与滑条/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2014/01/24/技术 Cypress的Capsense触摸按键与滑条/" itemprop="commentsCount"></span>
+              <a href="/2014/06/30/MCU STM32f207 USB HOST读U盘终于有点眉目了，写写自己的学习过程和经验/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2014/06/30/MCU STM32f207 USB HOST读U盘终于有点眉目了，写写自己的学习过程和经验/" itemprop="commentsCount"></span>
               </a>
             </span>
           
@@ -1136,12 +1032,118 @@ Id-Vds关系曲线如下图所示：
         
           <span itemprop="articleBody">
             
-            工作原理就不说了，从cypress的数据手册上可以了解，如果仅仅是为了使用capsense按键与滑条，只需要知道如何用就好了，深入原理不必深究。这里主要说下如何具体实现capsense按键与滑条。
-如何开始设计：首先要选择需要的芯片，然后下载该芯片的数据手册仔细阅读，配置好开发环境，在对该款芯片的内部资源和开发环境有了一定了解后再开始设计。由于模拟部分和驱动固件，cypress已经完全集成在芯片里了，用户要做的就只是PCB layout需要的按键与滑条。然后分配到cypress触摸芯片的相应管脚。关于PCB layout的一些指导，建议仔细阅读cypress的三个文档，这三个文档在cypress官网上都可以下载到，分别是：Capacitance Sensing - Layout Guidelines for PSoC CapSense - AN2292 (ZH).pdfCapSense(TM) Best Practices - AN2394 (ZH).pdfGetting Started with CapSense_ZH_001-78942[3604].pdf这些文件中讲解了capse
+            半个月前开始搞USB HOST读U盘的固件，一开始也是什么都不懂，只是以前搞过cypress的USB芯片CY7C68013A，对USB协议有一点基础。
+
+为了搞好USB，首先阅读了圈圈的《圈圈教你玩USB》 这本书，书写的很详细，跟着他的思路走，能把USB协议的各个部分都接触到，即使硬件条件不同，但他的固件是自己一步一步写出来的，对USB的通信过程理解有很大帮助。
+
+然后就是熟悉stm32的USB 固件库，首先用DEVICE库的例子，自己修改，由于当时只有stm32f103的硬件条件，做了一个使用内部FLASH空间的256K小U盘，这样对USB device的固件结构有了大概了解。
+
+之后，了解FATFS的内容，将FATFS移植到stm32f103上，目的就是管理着256KB的FLASH空间，这样结合USB device的固件，就可以通过电脑修改文件，然后通过串口发送命令，使用FATFS读或者写文件，观察效果。这样就熟悉了FATFS文件系统的使用和移植注意事项。
+
+再下来就是官方的OTG_FS库了，这个库适用于包含OTG模块的f105,107和f2xx系列，这个库有一个说明文档pdf，
             ...
           </span>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2014/01/24/技术 Cypress的Capsense触摸按键与滑条/#more" rel="contents">
+            <a class="btn" href="/2014/06/30/MCU STM32f207 USB HOST读U盘终于有点眉目了，写写自己的学习过程和经验/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/2014/06/26/MCU STM32F20X系列的Vcap脚，用stm32f207zet6替代stm32f103zet6需要注意的地方/" itemprop="url">
+                MCU STM32F20X系列的Vcap脚，用stm32f207zet6替代stm32f103zet6需要注意的地方
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2014-06-26T17:05:12+08:00" content="2014-06-26">
+            2014-06-26
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/MCU/" itemprop="url" rel="index">
+                  <span itemprop="name">MCU</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/2014/06/26/MCU STM32F20X系列的Vcap脚，用stm32f207zet6替代stm32f103zet6需要注意的地方/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2014/06/26/MCU STM32F20X系列的Vcap脚，用stm32f207zet6替代stm32f103zet6需要注意的地方/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+            为了用stm32f207系列144封装芯片替代103系列的芯片有三个地方需要注意：
+
+30脚： 207是VDD，而103是VSS，所以必须改为VDD，或者作冗余设计
+106脚：207是VCap，103是NC，207的必须将106脚接2.2uf电容到地，103的悬空
+71脚； 207是VCap，103是VSS，还是207必须将71脚接2.2uf电容到地。
+
+Vcap是稳定内部1.8V的核用的,要连接一个2.2uF的电容(ESR要小,距离MCU越近越好)你实际用表测一下Vcap的电压，你会发现它是1.8V（手册上说这个是内核供电电压滤波的Vcap电容不能省，否则就不能用仿真器下载程序了）
+
+            
+          </span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014/06/26/MCU STM32F20X系列的Vcap脚，用stm32f207zet6替代stm32f103zet6需要注意的地方/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1167,7 +1169,7 @@ Id-Vds关系曲线如下图所示：
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/">&laquo;</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">&raquo;</a>
+    <a class="extend prev" rel="prev" href="/">&laquo;</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">&raquo;</a>
   </nav>
 
  </div>
@@ -1201,21 +1203,21 @@ Id-Vds关系曲线如下图所示：
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">22</span>
+              <span class="site-state-item-count">35</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-count">10</span>
               <span class="site-state-item-name">分类</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-count">28</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

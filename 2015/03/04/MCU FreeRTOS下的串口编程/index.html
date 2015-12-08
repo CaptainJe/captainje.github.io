@@ -1,0 +1,666 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+    <meta name="description" content="Brave Shine" />
+
+
+
+  <meta name="keywords" content="FreeRTOS,STM32,串口," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="https://avatars2.githubusercontent.com/u/13464469?v=3&s=460?v=0.4.5.1" />
+
+
+<meta name="description" content="描述刚接触FreeRTOS的时候，就对串口在FreeRTOS下如何应用的问题比较困惑，现在完成了一个小项目，也有点心得，在这里记录一下使用方式，方便日后参考：
+代码串口中断：1234567891011121314151617181920212223242526272829303132333435363738void USART1_IRQHandler(void)    //User debug&amp;#">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MCU FreeRTOS下的串口编程">
+<meta property="og:url" content="http://yoursite.com/2015/03/04/MCU FreeRTOS下的串口编程/index.html">
+<meta property="og:site_name" content="CaptainJe's Blog">
+<meta property="og:description" content="描述刚接触FreeRTOS的时候，就对串口在FreeRTOS下如何应用的问题比较困惑，现在完成了一个小项目，也有点心得，在这里记录一下使用方式，方便日后参考：
+代码串口中断：1234567891011121314151617181920212223242526272829303132333435363738void USART1_IRQHandler(void)    //User debug&amp;#">
+<meta property="og:updated_time" content="2015-12-08T06:17:15.606Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MCU FreeRTOS下的串口编程">
+<meta name="twitter:description" content="描述刚接触FreeRTOS的时候，就对串口在FreeRTOS下如何应用的问题比较困惑，现在完成了一个小项目，也有点心得，在这里记录一下使用方式，方便日后参考：
+代码串口中断：1234567891011121314151617181920212223242526272829303132333435363738void USART1_IRQHandler(void)    //User debug&amp;#">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'always'
+  };
+</script>
+
+  <title> MCU FreeRTOS下的串口编程 | CaptainJe's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?4c23a7bd61e4639a1d732369a9c18096";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">CaptainJe's Blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              MCU FreeRTOS下的串口编程
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2015-03-04T10:12:06+08:00" content="2015-03-04">
+            2015-03-04
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/MCU/" itemprop="url" rel="index">
+                  <span itemprop="name">MCU</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/2015/03/04/MCU FreeRTOS下的串口编程/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/04/MCU FreeRTOS下的串口编程/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><h2 id="描述">描述</h2><p>刚接触FreeRTOS的时候，就对串口在FreeRTOS下如何应用的问题比较困惑，现在完成了一个小项目，<br>也有点心得，在这里记录一下使用方式，方便日后参考：</p>
+<h2 id="代码">代码</h2><p>串口中断：<br><figure class="highlight openscad"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">void USART1_IRQHandler<span class="params">(void)</span>    <span class="comment">//User debug</span></span><br><span class="line">&#123;</span><br><span class="line">  portBASE_TYPE usart1_Que_Woken=pdFALSE;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span><span class="params">(USART_GetITStatus<span class="params">(USART1,USART_IT_TXE)</span>!=RESET)</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//USART_ClearITPendingBit(USART1,USART_IT_TXE);</span></span><br><span class="line">		<span class="keyword">if</span><span class="params">( xQueueReceiveFromISR<span class="params">( L0_TxQue, &amp;DTS, &amp;usart1_Que_Woken )</span> == pdTRUE )</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="comment">/* A character was retrieved from the queue so can be sent to the</span><br><span class="line">			THR now. */</span></span><br><span class="line">				USART_SendData<span class="params">( USART1,DTS)</span>;	</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			USART_ITConfig<span class="params">( USART1, USART_IT_TXE, DISABLE )</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//如果TXE中断发生，从Tx队列中提取数据，并发送，直到提取数据完毕，关掉TXE中断。</span></span><br><span class="line">	<span class="comment">//TXE中断被当做一个启动传输的标志，当有任务需要使用串口输出数据的时候，首先往队列中输入数据，然后打开TXE中断，这样串口中断处理程序就会进入TXE，读取队列并发送数据。		</span></span><br><span class="line">		</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span><span class="params">(USART_GetITStatus<span class="params">(USART1,USART_IT_RXNE)</span>!=RESET)</span></span><br><span class="line">	&#123;</span><br><span class="line">		  USART_ClearITPendingBit<span class="params">(USART1,USART_IT_RXNE)</span>;</span><br><span class="line">		  L0_RxBuffer[L0_RxCount++]=USART_ReceiveData<span class="params">(USART1)</span>;   <span class="comment">//Save to L0 Buffer, Send to L1 every 20 bytes.</span></span><br><span class="line">			<span class="keyword">if</span><span class="params">(L0_RxCount&gt;=<span class="number">20</span>)</span></span><br><span class="line">			&#123;</span><br><span class="line">				L0_RxCount=<span class="number">0</span>;</span><br><span class="line">				xQueueSendToBackFromISR<span class="params">(L0_RxQue,L0_RxBuffer,&amp;usart1_Que_Woken)</span>;</span><br><span class="line">			&#125;</span><br><span class="line">	&#125;	</span><br><span class="line"></span><br><span class="line">	<span class="comment">//如果RXNE中断发生，我这里先把收到的数据存入20byte的buffer，20byte存满之后，再一次性发送到接受队列，负责	 //处理接收数据的任务，能够从队列中收取数据则运行，再把数据做处理，我们协议对顶20byte作为一个基础数据包               //所以我这里用20byte作处理。</span></span><br><span class="line">	portEND_SWITCHING_ISR<span class="params">(usart1_Que_Woken)</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>需要发送时：<br><figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">for<span class="list">(<span class="keyword">Buffer_index=0</span><span class="comment">;Buffer_index&lt;20;Buffer_index++)</span></span><br><span class="line">&#123;</span><br><span class="line">	xQueueSendToBack<span class="list">(<span class="keyword">L0_TxQue</span>,<span class="keyword">&amp;L1_ACK_Buffer</span>[Buffer_index],portMAX_DELAY)</span><span class="comment">;</span></span><br><span class="line">	USART_ITConfig<span class="list">( <span class="keyword">USART1</span>, USART_IT_TXE,ENABLE )</span><span class="comment">; //Give signal to usart handler to start a 2o bytes' data transfer</span></span><br><span class="line">&#125;</span><br><span class="line">//我这里还是<span class="number">20</span>个字节，做一次传输，for循环<span class="number">20</span>次，把<span class="number">20</span>byte数据传到串口发送队列，并使能RXNE中断，以通知中断处理。</span></span><br></pre></td></tr></table></figure></p>
+<p>需要接收时：<br><figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">XSTATUS=xQueueReceive<span class="comment">(L0_RxQue,L0_RxBuffer_Temp,portMAX_DELAY)</span>;</span><br><span class="line">		<span class="keyword">if</span><span class="comment">(XSTATUS==pdPASS)</span></span><br><span class="line">		&#123;</span><br><span class="line">              <span class="comment">//接收任务收取队列，收取成功则做数据处理。</span></span><br><span class="line">           &#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="解释">解释</h2><p>由于项目比较简单，只有一个任务TX任务统一负责发送，RX任务负责接收，所以没有考虑 串口使用权 的问题。<br>FreeRTOS中有一段话：</p>
+<blockquote>
+<p>有效使用队列：<br>FreeRTOS的大多数demo应用程序中都包含一个简单的UART驱动，其通过队 列将字符传递到发送中断例程，也使用队列将字符从接收中断例程中传递出来。<br>发送或 接收的每个字符都通过队列单独传递。这些UART驱动的这种实现方式只是单纯了为 了演示如何在中断中使用队列。<br>实际上利用队列传递单个字符是极其低效的，特别是在 波特率较高的时后，所以这种方式并不建议用在产品代码中。<br>实际应用中可以采用下述<br>更有效的方式：<br>1· 将接收到的字符先缓存到内存中。当接收到一个传输完成消息，或是检测到传输中 断后，使用信号量让某个任务解除阻塞，这个任务将对字符缓存进行处理。<br>2· 在中断服务中直接解析接收到的字符，然后通过队列将解析后经解码得到的命令发 送到处理任务(与图23中描述的方式类似)。<br>这种技术仅适用于数据流能够快速解析 的场合，这样整个数据解析工作才可以放在中断服务中完成</p>
+</blockquote>
+<p>我们项目由于包含了数据包分包组包的协议，所以收的部分只能一个数据包20byte做一次上层处理了。</p>
+<p>使用FreeRTOS不是很久，理解也比较浅薄，只是自己记录下来供日后参考，不对的地方恳请阅者指正。            </p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/FreeRTOS/" rel="tag">#FreeRTOS</a>
+          
+            <a href="/tags/STM32/" rel="tag">#STM32</a>
+          
+            <a href="/tags/串口/" rel="tag">#串口</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/09/02/hello-world/" rel="prev">Hello world</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/10/23/记录 明年要有自己的小工作室/" rel="next">记录 明年要有自己的小工作室</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div class="ds-thread" data-thread-key="2015/03/04/MCU FreeRTOS下的串口编程/"
+                   data-title="MCU FreeRTOS下的串口编程" data-url="http://yoursite.com/2015/03/04/MCU FreeRTOS下的串口编程/">
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="https://avatars2.githubusercontent.com/u/13464469?v=3&s=460" alt="CaptainJe" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">CaptainJe</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">Brave Shine</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">35</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">28</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/CaptainJe" target="_blank">Github</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#描述"><span class="nav-number">1.</span> <span class="nav-text">描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码"><span class="nav-number">2.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解释"><span class="nav-number">3.</span> <span class="nav-text">解释</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy; &nbsp;  2013 - 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CaptainJe</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"captainje"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>
