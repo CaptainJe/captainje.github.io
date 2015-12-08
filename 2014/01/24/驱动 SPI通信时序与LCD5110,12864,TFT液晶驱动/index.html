@@ -1,0 +1,676 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+    <meta name="description" content="Brave Shine" />
+
+
+
+  <meta name="keywords" content="SPI,液晶驱动," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="https://avatars2.githubusercontent.com/u/13464469?v=3&s=460?v=0.4.5.1" />
+
+
+<meta name="description" content="还是老样子不写网上可以搜索到的基础知识，写比较关键的实际应用比较实用的东西。本篇文章中说到的所有东西都是对Cypress  PSOC1芯片基础上实现SPI液晶驱动的总结。
+SPI通讯时序几个模式的区别开始的时候总是对SPI通信时序的Mode 0,1,2,3分不清楚。
+
+CPOL：时钟极性，CPOL=0：空闲时SCK为低电平，第一个SCK脉冲由上升沿开始CPOL=1：空闲时SCK为高电平，第一个SC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="驱动 SPI通信时序与LCD5110,12864,TFT液晶驱动">
+<meta property="og:url" content="http://yoursite.com/2014/01/24/驱动 SPI通信时序与LCD5110,12864,TFT液晶驱动/index.html">
+<meta property="og:site_name" content="CaptainJe's Blog">
+<meta property="og:description" content="还是老样子不写网上可以搜索到的基础知识，写比较关键的实际应用比较实用的东西。本篇文章中说到的所有东西都是对Cypress  PSOC1芯片基础上实现SPI液晶驱动的总结。
+SPI通讯时序几个模式的区别开始的时候总是对SPI通信时序的Mode 0,1,2,3分不清楚。
+
+CPOL：时钟极性，CPOL=0：空闲时SCK为低电平，第一个SCK脉冲由上升沿开始CPOL=1：空闲时SCK为高电平，第一个SC">
+<meta property="og:updated_time" content="2015-12-08T01:16:01.016Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="驱动 SPI通信时序与LCD5110,12864,TFT液晶驱动">
+<meta name="twitter:description" content="还是老样子不写网上可以搜索到的基础知识，写比较关键的实际应用比较实用的东西。本篇文章中说到的所有东西都是对Cypress  PSOC1芯片基础上实现SPI液晶驱动的总结。
+SPI通讯时序几个模式的区别开始的时候总是对SPI通信时序的Mode 0,1,2,3分不清楚。
+
+CPOL：时钟极性，CPOL=0：空闲时SCK为低电平，第一个SCK脉冲由上升沿开始CPOL=1：空闲时SCK为高电平，第一个SC">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'always'
+  };
+</script>
+
+  <title> 驱动 SPI通信时序与LCD5110,12864,TFT液晶驱动 | CaptainJe's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?4c23a7bd61e4639a1d732369a9c18096";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">CaptainJe's Blog</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              驱动 SPI通信时序与LCD5110,12864,TFT液晶驱动
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2014-01-24T18:29:29+08:00" content="2014-01-24">
+            2014-01-24
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/驱动/" itemprop="url" rel="index">
+                  <span itemprop="name">驱动</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/2014/01/24/驱动 SPI通信时序与LCD5110,12864,TFT液晶驱动/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2014/01/24/驱动 SPI通信时序与LCD5110,12864,TFT液晶驱动/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>还是老样子不写网上可以搜索到的基础知识，写比较关键的实际应用比较实用的东西。<br>本篇文章中说到的所有东西都是对Cypress  PSOC1芯片基础上实现SPI液晶驱动的总结。</p>
+<h2 id="SPI通讯时序几个模式的区别">SPI通讯时序几个模式的区别</h2><p>开始的时候总是对SPI通信时序的Mode 0,1,2,3分不清楚。</p>
+<ul>
+<li><p>CPOL：时钟极性，<br>CPOL=0：空闲时SCK为低电平，第一个SCK脉冲由上升沿开始<br>CPOL=1：空闲时SCK为高电平，第一个SCK脉冲由下降沿开始</p>
+</li>
+<li><p>CPHA：时钟相位，<br>CPHA=0：第一个跳变沿采集数据，也就是说未开始之前，第一个数据已经准备好，第一个跳变沿就直接开始采集<br>CPHA=1：第二个跳变沿采集数据，也就是说未开始之前，第一个数据可以没准备，可以在第一个SCK跳变沿准备，第二个采集</p>
+</li>
+</ul>
+<h2 id="例子">例子</h2><p>举个实际例子，就是液晶屏SPI通信时的一段最基本的通信代码，使用IO引脚软件模拟SPI时序：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(i = <span class="number">0</span>; i&lt;<span class="number">8</span>; i++)	<span class="comment">//8位数据, 先高后低</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(wbyte &amp; <span class="number">0x80</span>) &#123;LCD_DIN_HIGH;&#125;</span><br><span class="line">		<span class="keyword">else</span>			 &#123;LCD_DIN_LOW;&#125;</span><br><span class="line">		wbyte &lt;&lt;= <span class="number">1</span>;	<span class="comment">//移位(延时)</span></span><br><span class="line">		<span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;<span class="number">10</span>;j++);</span><br><span class="line">		</span><br><span class="line">		LCD_CLK_HIGH;	<span class="comment">//上升沿写入</span></span><br><span class="line">		<span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;<span class="number">10</span>;j++);</span><br><span class="line">		LCD_CLK_LOW ;</span><br><span class="line">		<span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;<span class="number">10</span>;j++);</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure></p>
+<p>分析下，首先根据要传送的一个字节数据，准备好了电平，然后给上升沿，然后再下降沿，<br>初始化的时候，SCK是低电平，说明空闲状态是低电平，CPOL=0;<br>第一个数据电平已经准备好了，第一个跳变沿就采集数据,CPHA=0;说明这个SPI通信是mode0模式。</p>
+<h2 id="SPI通信有时的固件中SPI读，通过发送dummy来完成：">SPI通信有时的固件中SPI读，通过发送dummy来完成：</h2><p>dummy字节的发送，实际上是在SCK上发送一系列脉冲给从机，但是MOSI电平不变，MISO采集电平变化，并保存为数据。<br>由于SCK是由主机控制的，每次SPI通信也必须由主机控制SCK信号产生相应的脉冲，<br>所以很多固件中把读一个字节的数据写成send dummy，其实就是发送脉冲，不发送数据，接收数据的意思。</p>
+<h2 id="LCD5110，12864黑白液晶驱动。">LCD5110，12864黑白液晶驱动。</h2><p>首先，只要硬件上没错，肯定是可以调试出来的。不要一调不出来就变无头苍蝇。<br>一次成功最好了，如果没成功，第一件要做的事情就是用示波器观察SPI通信各引脚的电平，<br>可以写一个循环，先发送一个字节数据，再发送一个字节命令，不断重复，这样观察MOSI,SCK,DATA/COMMAND，EN，的电平，<br>并与数据手册上的时序图严格对照，确定SPI通讯正确。然后再回到固件中对照初始化程序每一条是否正确。</p>
+<h2 id="点阵液晶实现动画效果">点阵液晶实现动画效果</h2><p>下面主要说一下LCD5110，12864这类一个字节控制8个点，每次发送一个字节数据的液晶，实现动态画图的要点：<br>画图最重要的就是可以在任意一个坐标显示一个点，只要做到了这个，其他的都很容易了。<br>由于这类液晶驱动芯片内部的RAM只能一次更新8个点，要做到在任意一个坐标A，显示一个点，<br>只能通过发送8位数据到该点所对应RAM去，让这8位数据对应的其他位不变，而只把A坐标位置的点置1. </p>
+<p>怎么做？很容易，比如A坐标对应第0位：<br>要显示A点，那么就让原先RAM中的一个字节byte|0x01;<br>要清除A点，就让原先RAM中的一个字节byte&amp;0xfe；</p>
+<p>可是这个byte怎么得到？有的芯片支持SPI读液晶驱动芯片的RAM，可以通过读取该点对应ram的一个字节来得到，<br>但这样每次更新一个点，要先读，再写，降低了更新速度。并且有的芯片不支持SPI读RAM。<br>这样的话，就要求我们有可以记录液晶各点状态的东西，<br>可以在内存中建立一个数组，对应要控制区域的RAM，每次要更新一个点，就通过|，&amp;运算更新内存数组中的相应字节，然后SPI发送该字节到对应RAM。</p>
+<h2 id="TFT彩屏液晶驱动。">TFT彩屏液晶驱动。</h2><p>由于彩屏驱动要控制一个点显示什么颜色，每次向控制芯片RAM中，发送的是8位或者16位的颜色值，<br>画一个点传送一个或者两个字节，不会影响周围的点，所以不存在要建立内存数组的问题。<br>软件模拟的SPI通讯速度不够，驱动2.2寸TFT显示，刷新速度太慢，用硬件SPI让它工作在最高速度驱动彩屏TFT的刷新速度还可以接受。</p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SPI/" rel="tag">#SPI</a>
+          
+            <a href="/tags/液晶驱动/" rel="tag">#液晶驱动</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/06/04/记录 新工作，新目标/" rel="prev">记录 新工作，新计划</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/01/24/硬件 MOSFET选型与并联/" rel="next">硬件 MOSFET选型与并联</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div class="ds-thread" data-thread-key="2014/01/24/驱动 SPI通信时序与LCD5110,12864,TFT液晶驱动/"
+                   data-title="驱动 SPI通信时序与LCD5110,12864,TFT液晶驱动" data-url="http://yoursite.com/2014/01/24/驱动 SPI通信时序与LCD5110,12864,TFT液晶驱动/">
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="https://avatars2.githubusercontent.com/u/13464469?v=3&s=460" alt="CaptainJe" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">CaptainJe</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">Brave Shine</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">22</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/CaptainJe" target="_blank">Github</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#SPI通讯时序几个模式的区别"><span class="nav-number">1.</span> <span class="nav-text">SPI通讯时序几个模式的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#例子"><span class="nav-number">2.</span> <span class="nav-text">例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SPI通信有时的固件中SPI读，通过发送dummy来完成："><span class="nav-number">3.</span> <span class="nav-text">SPI通信有时的固件中SPI读，通过发送dummy来完成：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LCD5110，12864黑白液晶驱动。"><span class="nav-number">4.</span> <span class="nav-text">LCD5110，12864黑白液晶驱动。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#点阵液晶实现动画效果"><span class="nav-number">5.</span> <span class="nav-text">点阵液晶实现动画效果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TFT彩屏液晶驱动。"><span class="nav-number">6.</span> <span class="nav-text">TFT彩屏液晶驱动。</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy; &nbsp;  2013 - 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CaptainJe</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"captainje"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>
