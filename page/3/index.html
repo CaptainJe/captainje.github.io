@@ -184,6 +184,105 @@
           
           
             
+              <a class="post-title-link" href="/2014/06/26/MCU STM32F20X系列的Vcap脚，用stm32f207zet6替代stm32f103zet6需要注意的地方/" itemprop="url">
+                MCU STM32F20X系列的Vcap脚，用stm32f207zet6替代stm32f103zet6需要注意的地方
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2014-06-26T17:05:12+08:00" content="2014-06-26">
+            2014-06-26
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/MCU/" itemprop="url" rel="index">
+                  <span itemprop="name">MCU</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/2014/06/26/MCU STM32F20X系列的Vcap脚，用stm32f207zet6替代stm32f103zet6需要注意的地方/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2014/06/26/MCU STM32F20X系列的Vcap脚，用stm32f207zet6替代stm32f103zet6需要注意的地方/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+            为了用stm32f207系列144封装芯片替代103系列的芯片有三个地方需要注意：
+
+30脚： 207是VDD，而103是VSS，所以必须改为VDD，或者作冗余设计
+106脚：207是VCap，103是NC，207的必须将106脚接2.2uf电容到地，103的悬空
+71脚； 207是VCap，103是VSS，还是207必须将71脚接2.2uf电容到地。
+
+Vcap是稳定内部1.8V的核用的,要连接一个2.2uF的电容(ESR要小,距离MCU越近越好)你实际用表测一下Vcap的电压，你会发现它是1.8V（手册上说这个是内核供电电压滤波的Vcap电容不能省，否则就不能用仿真器下载程序了）
+
+            
+          </span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014/06/26/MCU STM32F20X系列的Vcap脚，用stm32f207zet6替代stm32f103zet6需要注意的地方/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
               <a class="post-title-link" href="/2014/06/23/MCU 内部FLASH+FATFS文件系统+U盘/" itemprop="url">
                 MCU 内部FLASH+FATFS文件系统+U盘
               </a>
@@ -276,8 +375,8 @@
           
           
             
-              <a class="post-title-link" href="/2014/06/23/MCU STM32_USBFS_Device固件库使用总结，用片内Flash作小U盘/" itemprop="url">
-                MCU STM32_USBFS_Device固件库使用总结，用片内Flash作小U盘
+              <a class="post-title-link" href="/2014/06/23/VS2010 快捷方式提示插入磁盘，win7 C盘权限问题/" itemprop="url">
+                C++ VS2010 快捷方式提示插入磁盘，win7 C盘权限问题
               </a>
             
           
@@ -297,8 +396,8 @@
             &nbsp; | &nbsp; 分类于
             
               <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/MCU/" itemprop="url" rel="index">
-                  <span itemprop="name">MCU</span>
+                <a href="/categories/C/" itemprop="url" rel="index">
+                  <span itemprop="name">C++</span>
                 </a>
               </span>
 
@@ -313,8 +412,8 @@
           
             <span class="post-comments-count">
               &nbsp; | &nbsp;
-              <a href="/2014/06/23/MCU STM32_USBFS_Device固件库使用总结，用片内Flash作小U盘/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2014/06/23/MCU STM32_USBFS_Device固件库使用总结，用片内Flash作小U盘/" itemprop="commentsCount"></span>
+              <a href="/2014/06/23/VS2010 快捷方式提示插入磁盘，win7 C盘权限问题/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2014/06/23/VS2010 快捷方式提示插入磁盘，win7 C盘权限问题/" itemprop="commentsCount"></span>
               </a>
             </span>
           
@@ -331,14 +430,22 @@
         
           <span itemprop="articleBody">
             
-            简介为了熟悉USB协议，熟悉stm32 usb固件库的结构和使用方法，决定用它做一个u盘，正点原子开发板上面有例子把sd卡和spi flash作为存储器的u盘，参考这些例子和网上的资料，用内部flash作为存储空间，做了一个小u盘。
-stm32内部flash大小为512kbytes，以页为单位，每页2kbytes，256页，起始地址为0800 0000，程序要占用200多kbytes的空间，所以把最后的256kbytes作为u盘的存储空间，地址为0803 fc00到结束地址。
-固件库移植正点原子例子上面用的usb固件库是2.2版本的，我使用的是最新4.0版本，首先要做的就是先搞好4.0版本的移植。根据网上资料，官方固件库里的例子，USB固件库的核心协议包括core,init,int,regs,sil,mem这6个C文件，这些文件完成了USB枚举，标准请求的路由等功能，可以说给USB通信搭建了基础，其它具体的子类协议应用都是在这个基础上搭建起来的。这6个文件不用修改，直接包含到工程中。
-使用固件库做mass storage device协议，参考官方固件库里面的例子，需要用到mass_m
+            自己写的第一个上位机程序ESB_USBK v1.0 完成了，说几个跟开发环境有关系的问题
+
+VS2010打包好的程序，放在别的电脑上，如果程序文件删除一个，再次点击桌面快捷方式，就提示要插入磁盘重新安装：因为VS2010的打包程序把快捷方式设置为文件夹了，而不是.exe文件这个是VS自己的问题，微软的帮助和支持网站上已经指出并提出了解决方案。但是网站上的解决方案讲的并不清楚。简单的解决方案为：
+
+
+先去下载msi编辑软件orca，可以去这里下载：http://www.52z.com/soft/10568.Html
+启动orca。
+在“文件”菜单中上, 单击“打开”。
+在“打开”对话框找到包含YourApplicationSetup.msi文件的文件夹。
+单击YourApplicationSetup.msi文件，然后单击“打开”。
+在“表”窗格中，单击“shortcut”。
+在右窗格中，选择在“Name”列中对应“YourApplication.exe”值的行，点击该行的“Target”列，VS安装程序生成的快捷方式对应的值为“DefaultFeature”，将其改为“[TARGETDI
             ...
           </span>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2014/06/23/MCU STM32_USBFS_Device固件库使用总结，用片内Flash作小U盘/#more" rel="contents">
+            <a class="btn" href="/2014/06/23/VS2010 快捷方式提示插入磁盘，win7 C盘权限问题/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -472,8 +579,8 @@ APP区：存放应用程序代码，就是我们产品的固件了。
           
           
             
-              <a class="post-title-link" href="/2014/06/23/VS2010 快捷方式提示插入磁盘，win7 C盘权限问题/" itemprop="url">
-                C++ VS2010 快捷方式提示插入磁盘，win7 C盘权限问题
+              <a class="post-title-link" href="/2014/06/23/MCU STM32_USBFS_Device固件库使用总结，用片内Flash作小U盘/" itemprop="url">
+                MCU STM32_USBFS_Device固件库使用总结，用片内Flash作小U盘
               </a>
             
           
@@ -493,8 +600,8 @@ APP区：存放应用程序代码，就是我们产品的固件了。
             &nbsp; | &nbsp; 分类于
             
               <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/C/" itemprop="url" rel="index">
-                  <span itemprop="name">C++</span>
+                <a href="/categories/MCU/" itemprop="url" rel="index">
+                  <span itemprop="name">MCU</span>
                 </a>
               </span>
 
@@ -509,8 +616,8 @@ APP区：存放应用程序代码，就是我们产品的固件了。
           
             <span class="post-comments-count">
               &nbsp; | &nbsp;
-              <a href="/2014/06/23/VS2010 快捷方式提示插入磁盘，win7 C盘权限问题/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2014/06/23/VS2010 快捷方式提示插入磁盘，win7 C盘权限问题/" itemprop="commentsCount"></span>
+              <a href="/2014/06/23/MCU STM32_USBFS_Device固件库使用总结，用片内Flash作小U盘/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2014/06/23/MCU STM32_USBFS_Device固件库使用总结，用片内Flash作小U盘/" itemprop="commentsCount"></span>
               </a>
             </span>
           
@@ -527,22 +634,14 @@ APP区：存放应用程序代码，就是我们产品的固件了。
         
           <span itemprop="articleBody">
             
-            自己写的第一个上位机程序ESB_USBK v1.0 完成了，说几个跟开发环境有关系的问题
-
-VS2010打包好的程序，放在别的电脑上，如果程序文件删除一个，再次点击桌面快捷方式，就提示要插入磁盘重新安装：因为VS2010的打包程序把快捷方式设置为文件夹了，而不是.exe文件这个是VS自己的问题，微软的帮助和支持网站上已经指出并提出了解决方案。但是网站上的解决方案讲的并不清楚。简单的解决方案为：
-
-
-先去下载msi编辑软件orca，可以去这里下载：http://www.52z.com/soft/10568.Html
-启动orca。
-在“文件”菜单中上, 单击“打开”。
-在“打开”对话框找到包含YourApplicationSetup.msi文件的文件夹。
-单击YourApplicationSetup.msi文件，然后单击“打开”。
-在“表”窗格中，单击“shortcut”。
-在右窗格中，选择在“Name”列中对应“YourApplication.exe”值的行，点击该行的“Target”列，VS安装程序生成的快捷方式对应的值为“DefaultFeature”，将其改为“[TARGETDI
+            简介为了熟悉USB协议，熟悉stm32 usb固件库的结构和使用方法，决定用它做一个u盘，正点原子开发板上面有例子把sd卡和spi flash作为存储器的u盘，参考这些例子和网上的资料，用内部flash作为存储空间，做了一个小u盘。
+stm32内部flash大小为512kbytes，以页为单位，每页2kbytes，256页，起始地址为0800 0000，程序要占用200多kbytes的空间，所以把最后的256kbytes作为u盘的存储空间，地址为0803 fc00到结束地址。
+固件库移植正点原子例子上面用的usb固件库是2.2版本的，我使用的是最新4.0版本，首先要做的就是先搞好4.0版本的移植。根据网上资料，官方固件库里的例子，USB固件库的核心协议包括core,init,int,regs,sil,mem这6个C文件，这些文件完成了USB枚举，标准请求的路由等功能，可以说给USB通信搭建了基础，其它具体的子类协议应用都是在这个基础上搭建起来的。这6个文件不用修改，直接包含到工程中。
+使用固件库做mass storage device协议，参考官方固件库里面的例子，需要用到mass_m
             ...
           </span>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2014/06/23/VS2010 快捷方式提示插入磁盘，win7 C盘权限问题/#more" rel="contents">
+            <a class="btn" href="/2014/06/23/MCU STM32_USBFS_Device固件库使用总结，用片内Flash作小U盘/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1053,106 +1152,6 @@ CPHA：时钟相位，CPHA=0：第一个跳变沿采集数据，也就是说未�
 
 
     
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2014/01/24/记录 恼人的周一，开始工作，这周的目标是开始变得专业一点/" itemprop="url">
-                记录 恼人的周一，开始工作，这周的目标是开始变得专业一点
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2014-01-24T16:28:45+08:00" content="2014-01-24">
-            2014-01-24
-          </time>
-        </span>
-
-        
-          <span class="post-category" >
-            &nbsp; | &nbsp; 分类于
-            
-              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/记录/" itemprop="url" rel="index">
-                  <span itemprop="name">记录</span>
-                </a>
-              </span>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-              &nbsp; | &nbsp;
-              <a href="/2014/01/24/记录 恼人的周一，开始工作，这周的目标是开始变得专业一点/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2014/01/24/记录 恼人的周一，开始工作，这周的目标是开始变得专业一点/" itemprop="commentsCount"></span>
-              </a>
-            </span>
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-            ##　工作安排：
-
-NIR1700，PG2按照格式写好资料
-PG2的板子，生产部有空帮忙焊接好后，调试
-ARM改版，具体与领导协商
-
-＃＃　自己学习：1.　FPGA：做完所有例子，弄懂Verilog中几个语句，和FPGA设计中的并行，模块等等关系2.　嵌入式系统：UCOSII  继续看邵贝贝的书。看完后，一句一句分析源代码
-这周的目标是Beat Back：学会保护自己，别人说自己不好的，自己不喜欢的，不要不说话，该说回去的就果断  保护自己，虽然自己只想做好技术，将来靠技术吃饭，但是也不能让别人觉得自己好欺负，想说自己什么说什么。(哈哈，整理的时候看到这个，觉得自己当时初出茅庐，好幼稚，不过以前经历过的一切都是以后的财富，我仍旧怀念那年每天加班到9点以后的时光和那些让我长大的人)
-
-            
-          </span>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014/01/24/记录 恼人的周一，开始工作，这周的目标是开始变得专业一点/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1191,7 +1190,7 @@ ARM改版，具体与领导协商
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">35</span>
+              <span class="site-state-item-count">36</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

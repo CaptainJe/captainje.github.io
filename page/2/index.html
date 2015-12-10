@@ -184,6 +184,101 @@
           
           
             
+              <a class="post-title-link" href="/2015/09/02/hello-world/" itemprop="url">
+                Hello world
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2015-09-02T12:13:32+08:00" content="2015-09-02">
+            2015-09-02
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; 分类于
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/博客维护/" itemprop="url" rel="index">
+                  <span itemprop="name">博客维护</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/2015/09/02/hello-world/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/09/02/hello-world/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody">
+            
+            Hello world今天是2015年9月2日，我自己搭建的博客出生了，以程序员的方式，向世界打招呼： Hello world。我会慢慢地把之前网易博客里写过的技术文章整理发布到这里来。持续更新接触到的新事物。
+Hello World，你会看到我把某个自己解决的难题，一步一步讲个明白；会看到我用心读一本好书，记录点滴感悟；会看到我偶尔告诉你我的梦想和计划，再或者有时会发一发小牢骚；
+我会朝着自己的理想不停成长，待有一天，羽翼丰满，展翅翱翔，再回首时希望能笑着感谢此时的自己：“谢谢你，没有辜负未来”。
+
+            
+          </span>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/09/02/hello-world/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
               <a class="post-title-link" href="/2015/03/04/MCU FreeRTOS下的串口编程/" itemprop="url">
                 MCU FreeRTOS下的串口编程
               </a>
@@ -1066,105 +1161,6 @@ This license will expire on Thu, 31 Jul 2014.
 
 
     
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2014/06/26/MCU STM32F20X系列的Vcap脚，用stm32f207zet6替代stm32f103zet6需要注意的地方/" itemprop="url">
-                MCU STM32F20X系列的Vcap脚，用stm32f207zet6替代stm32f103zet6需要注意的地方
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2014-06-26T17:05:12+08:00" content="2014-06-26">
-            2014-06-26
-          </time>
-        </span>
-
-        
-          <span class="post-category" >
-            &nbsp; | &nbsp; 分类于
-            
-              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                <a href="/categories/MCU/" itemprop="url" rel="index">
-                  <span itemprop="name">MCU</span>
-                </a>
-              </span>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-              &nbsp; | &nbsp;
-              <a href="/2014/06/26/MCU STM32F20X系列的Vcap脚，用stm32f207zet6替代stm32f103zet6需要注意的地方/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2014/06/26/MCU STM32F20X系列的Vcap脚，用stm32f207zet6替代stm32f103zet6需要注意的地方/" itemprop="commentsCount"></span>
-              </a>
-            </span>
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody">
-            
-            为了用stm32f207系列144封装芯片替代103系列的芯片有三个地方需要注意：
-
-30脚： 207是VDD，而103是VSS，所以必须改为VDD，或者作冗余设计
-106脚：207是VCap，103是NC，207的必须将106脚接2.2uf电容到地，103的悬空
-71脚； 207是VCap，103是VSS，还是207必须将71脚接2.2uf电容到地。
-
-Vcap是稳定内部1.8V的核用的,要连接一个2.2uF的电容(ESR要小,距离MCU越近越好)你实际用表测一下Vcap的电压，你会发现它是1.8V（手册上说这个是内核供电电压滤波的Vcap电容不能省，否则就不能用仿真器下载程序了）
-
-            
-          </span>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014/06/26/MCU STM32F20X系列的Vcap脚，用stm32f207zet6替代stm32f103zet6需要注意的地方/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1203,7 +1199,7 @@ Vcap是稳定内部1.8V的核用的,要连接一个2.2uF的电容(ESR要小,距�
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">35</span>
+              <span class="site-state-item-count">36</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
